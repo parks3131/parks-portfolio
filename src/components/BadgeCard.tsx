@@ -1,18 +1,12 @@
 "use client";
 
 import { RoundedBox, Text, useTexture } from "@react-three/drei";
+import type * as THREE from "three";
 import { profile } from "@/lib/content";
 
-export default function BadgeCard() {
-  const avatarMap = useTexture("/images/avatar.jpg");
-
+function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
   return (
-    <group>
-      {/* card body */}
-      <RoundedBox args={[1.6, 2.2, 0.05]} radius={0.08} smoothness={4}>
-        <meshPhysicalMaterial color="#101014" roughness={0.35} metalness={0.1} clearcoat={0.4} />
-      </RoundedBox>
-
+    <>
       {/* accent header bar */}
       <mesh position={[0, 0.92, 0.026]}>
         <planeGeometry args={[1.6, 0.36]} />
@@ -60,15 +54,29 @@ export default function BadgeCard() {
         {profile.title}
       </Text>
 
-      <Text
-        position={[0, -1.02, 0.026]}
-        fontSize={0.065}
-        color="#525252"
-        anchorX="center"
-        anchorY="middle"
-      >
+      <Text position={[0, -1.02, 0.026]} fontSize={0.065} color="#525252" anchorX="center" anchorY="middle">
         github.com/parks3131
       </Text>
+    </>
+  );
+}
+
+export default function BadgeCard() {
+  const avatarMap = useTexture("/images/avatar.jpg");
+
+  return (
+    <group>
+      {/* card body */}
+      <RoundedBox args={[1.6, 2.2, 0.05]} radius={0.08} smoothness={4}>
+        <meshPhysicalMaterial color="#101014" roughness={0.35} metalness={0.1} clearcoat={0.4} />
+      </RoundedBox>
+
+      {/* Identical content on both faces, so the badge reads correctly no
+          matter which way it's facing the camera. */}
+      <CardFace avatarMap={avatarMap} />
+      <group rotation={[0, Math.PI, 0]}>
+        <CardFace avatarMap={avatarMap} />
+      </group>
 
       {/* clip hole */}
       <mesh position={[0, 1.02, 0]}>

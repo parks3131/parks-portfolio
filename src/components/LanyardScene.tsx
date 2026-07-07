@@ -13,7 +13,7 @@ export default function LanyardScene() {
     <Canvas camera={{ position: [0, 0, 13], fov: 25 }} gl={{ alpha: true }}>
       <ambientLight intensity={0.6} />
       <directionalLight position={[3, 5, 4]} intensity={1.2} />
-      <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
+      <Physics gravity={[0, -20, 0]} timeStep={1 / 60}>
         <LanyardBand />
       </Physics>
       <Environment resolution={256}>

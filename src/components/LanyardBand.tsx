@@ -21,8 +21,8 @@ const SEGMENT_PROPS: RigidBodyProps = {
   type: "dynamic",
   canSleep: true,
   colliders: false,
-  angularDamping: 4,
-  linearDamping: 4,
+  angularDamping: 3,
+  linearDamping: 3,
 };
 
 export default function LanyardBand() {
@@ -36,10 +36,6 @@ export default function LanyardBand() {
   const vec = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
   const dragOffset = useRef(new THREE.Vector3());
-  const restTime = useRef(0);
-  const correcting = useRef(false);
-  const currentQuat = useMemo(() => new THREE.Quaternion(), []);
-  const faceForwardQuat = useMemo(() => new THREE.Quaternion(), []);
 
   const [dragged, setDragged] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -79,7 +75,7 @@ export default function LanyardBand() {
     };
   }, [hovered, dragged]);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (dragged && card.current) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
@@ -90,39 +86,6 @@ export default function LanyardBand() {
         y: vec.y - dragOffset.current.y,
         z: vec.z - dragOffset.current.z,
       });
-      restTime.current = 0;
-      correcting.current = false;
-    } else if (card.current) {
-      // If a drag flips the badge over, gently turn it back to face the
-      // camera once it's settled down for a moment — rather than leaving it
-      // stuck showing its back indefinitely.
-      const angvel = card.current.angvel();
-      const linvel = card.current.linvel();
-      const atRest =
-        Math.hypot(angvel.x, angvel.y, angvel.z) < 0.2 && Math.hypot(linvel.x, linvel.y, linvel.z) < 0.2;
-
-      if (atRest) {
-        restTime.current += delta;
-      } else {
-        restTime.current = 0;
-        correcting.current = false;
-      }
-
-      if (restTime.current > 1) {
-        correcting.current = true;
-      }
-
-      if (correcting.current) {
-        const r = card.current.rotation();
-        currentQuat.set(r.x, r.y, r.z, r.w);
-        currentQuat.slerp(faceForwardQuat, 0.06);
-        card.current.setRotation(currentQuat, true);
-        card.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-        if (currentQuat.angleTo(faceForwardQuat) < 0.02) {
-          correcting.current = false;
-          restTime.current = 0;
-        }
-      }
     }
 
     if (band.current && fixed.current && j1.current && j2.current && j3.current) {
@@ -144,13 +107,18 @@ export default function LanyardBand() {
       <group position={[0, 3.5, 0]}>
         <RigidBody ref={fixed} {...SEGMENT_PROPS} type="fixed" />
         <RigidBody position={[0.3, 0, 0]} ref={j1} {...SEGMENT_PROPS}>
-          <BallCollider args={[0.08]} />
+          {/* Sensor: these chain links only exist to define the rope shape and
+              swing dynamics. They aren't meant to physically collide with each
+              other or the card — nothing else is in the scene to collide
+              with, so solid colliders here just produce jittery self-contact
+              ("the badge won't sit still"). */}
+          <BallCollider args={[0.08]} sensor />
         </RigidBody>
         <RigidBody position={[0.6, 0, 0]} ref={j2} {...SEGMENT_PROPS}>
-          <BallCollider args={[0.08]} />
+          <BallCollider args={[0.08]} sensor />
         </RigidBody>
         <RigidBody position={[0.9, 0, 0]} ref={j3} {...SEGMENT_PROPS}>
-          <BallCollider args={[0.08]} />
+          <BallCollider args={[0.08]} sensor />
         </RigidBody>
         <RigidBody
           position={[0.95, -0.05, 0]}
@@ -158,7 +126,7 @@ export default function LanyardBand() {
           {...SEGMENT_PROPS}
           type={dragged ? "kinematicPosition" : "dynamic"}
         >
-          <CuboidCollider args={[0.8, 1.1, 0.03]} position={[0, -1.1, 0]} />
+          <CuboidCollider args={[0.8, 1.1, 0.03]} position={[0, -1.1, 0]} sensor />
           <group
             position={[0, -1.1, 0]}
             onPointerOver={(e) => {
