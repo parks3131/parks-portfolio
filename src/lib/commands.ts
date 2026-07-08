@@ -101,6 +101,14 @@ function renderExperience(): OutputLine[] {
   experience.forEach((job) => {
     lines.push(line(seg(job.role, "text-cyan-400"), seg(` · ${job.company}`, "text-neutral-400")));
     lines.push(indented(seg(`${job.location} · ${job.dates}`, "text-neutral-500")));
+    lines.push(
+      indented(
+        ...job.tools.flatMap((tool, i) => [
+          seg(i === 0 ? "" : " ", "text-neutral-600"),
+          seg(`[${tool}]`, "text-emerald-400"),
+        ]),
+      ),
+    );
     job.bullets.forEach((b) => lines.push(indented(seg(`- ${b}`))));
     lines.push(blank());
   });

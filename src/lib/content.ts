@@ -156,6 +156,7 @@ export type ExperienceEntry = {
   role: string;
   location: string;
   dates: string;
+  tools: string[];
   bullets: string[];
 };
 
@@ -165,6 +166,7 @@ export const experience: ExperienceEntry[] = [
     role: "Software Engineer",
     location: "Baltimore, MD",
     dates: "Mar 2026 – Present",
+    tools: ["Docker", "InfluxDB", "Grafana", "Keycloak", "k6"],
     bullets: [
       "Built a real-time observability pipeline (Docker, InfluxDB, Grafana) surfacing p95/p99 latency, error rates, and throughput for an AI HR platform under 20,000 concurrent virtual users",
       "Designed per-user telemetry tracking end-to-end latency across Keycloak SSO auth, LLM response, and UI render stages",
@@ -177,6 +179,7 @@ export const experience: ExperienceEntry[] = [
     role: "Software Automation Engineer Intern",
     location: "Baltimore, MD",
     dates: "Jan 2026 – Mar 2026",
+    tools: ["Playwright", "Cucumber", "TypeScript", "GitHub Actions", "Claude Code MCP"],
     bullets: [
       "Built an end-to-end BDD automation suite (Playwright + Cucumber, TypeScript) via GitHub Actions CI/CD, replacing manual regression testing",
       "Designed a three-layer Page Object Model following CLEAN architecture, enabling non-technical QA to write test scenarios in plain English",
@@ -188,6 +191,7 @@ export const experience: ExperienceEntry[] = [
     role: "Back End Developer",
     location: "Binghamton, NY",
     dates: "Feb 2025 – Dec 2025",
+    tools: ["Python", "FastAPI", "Pydantic", "PostgreSQL", "DynamoDB", "GitHub Actions"],
     bullets: [
       "Developed backend services with Python/FastAPI and Pydantic-validated RESTful endpoints for research data ingestion",
       "Managed relational data in Amazon RDS (PostgreSQL) with normalized schemas and optimized queries",
