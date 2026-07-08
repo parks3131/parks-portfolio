@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildSystemPrompt } from "@/lib/systemPrompt";
+import { retrieveContext } from "@/lib/retrieve";
+import { checkInput, checkOutput } from "@/lib/guardrails";
+import { getRateLimiter } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 
@@ -7,6 +10,12 @@ type ChatRequestBody = {
   message: string;
   history?: { role: "user" | "assistant"; content: string }[];
 };
+
+function getClientIp(req: NextRequest): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  return req.headers.get("x-real-ip") ?? "unknown";
+}
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENROUTER_API_KEY;
@@ -17,6 +26,19 @@ export async function POST(req: NextRequest) {
       { error: "Chat is not configured. Missing OPENROUTER_API_KEY." },
       { status: 500 },
     );
+  }
+
+  const ip = getClientIp(req);
+  try {
+    const { success } = await getRateLimiter().limit(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many messages. Wait a moment and try again." },
+        { status: 429 },
+      );
+    }
+  } catch (err) {
+    console.error("Rate limiter error:", err);
   }
 
   let body: ChatRequestBody;
@@ -31,9 +53,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Message is required." }, { status: 400 });
   }
 
+  const inputCheck = checkInput(message);
+  if (!inputCheck.allowed) {
+    return NextResponse.json({ reply: inputCheck.reason });
+  }
+
   const history = (body.history ?? []).slice(-10);
 
   try {
+    const context = await retrieveContext(message);
+
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -45,7 +74,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model,
         messages: [
-          { role: "system", content: buildSystemPrompt() },
+          { role: "system", content: buildSystemPrompt(context) },
           ...history,
           { role: "user", content: message },
         ],
@@ -73,7 +102,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({ reply: checkOutput(reply) });
   } catch (err) {
     console.error("Chat route error:", err);
     return NextResponse.json(

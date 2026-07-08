@@ -1,0 +1,152 @@
+[
+  {
+    "id": "portfolio-rag-chat",
+    "source": "project:Portfolio AI Chat",
+    "title": "Portfolio AI Chat - RAG + Guardrails (this site)",
+    "content": "This portfolio's own AI chat (github.com/parks3131/parks-portfolio) is a retrieval-augmented generation (RAG) system built end-to-end. Resume and project write-ups are chunked and embedded (OpenAI text-embedding-3-small) into a Postgres + pgvector store hosted on Neon, then retrieved by cosine similarity per visitor question and injected into the prompt as context, instead of stuffing the entire corpus into one static system prompt on every request. The chat is guarded on a public endpoint that spends real API credits: input is checked against jailbreak/off-topic regex patterns before any LLM call, output is checked for system-prompt leakage, and Upstash Redis enforces a sliding-window rate limit per IP. The underlying chat model is called via OpenRouter. A proud moment from building it: during self-review, an output-leak guardrail check was found to still be matching the old prompt's section headers (like 'ABOUT:' and 'EXPERIENCE:') after the system prompt had already been rewritten to a retrieval-based 'CONTEXT:' format — the check was quietly dead code that could never trigger. It was caught and fixed to match what the new prompt shape would actually leak, a good reminder that guardrail checks need to be re-verified against the current implementation, not just written once and trusted."
+  },
+  {
+    "id": "profile-contact",
+    "source": "resume",
+    "title": "Contact & Profile",
+    "content": "Parksunnath RPK (\"Parks\") is a Software Engineer based in Binghamton, NY. Contact: phone +1 (607) 343-8233, email rpkparks@gmail.com, GitHub https://github.com/parks3131, LinkedIn https://www.linkedin.com/in/parks-rpk-8479a3350/."
+  },
+  {
+    "id": "summary",
+    "source": "resume",
+    "title": "Summary",
+    "content": "Software Engineer with 2 years building backend systems, AI-powered platforms, and production observability infrastructure. At Acarin, led evals and observability for an AI agent HR worker using Langfuse to track LLM traces, prompt performance, and drift across production agent runs, while owning the broader reliability stack for the enterprise AI HR platform. This included building real-time telemetry pipelines (Docker, InfluxDB, Grafana) stress-tested to 20,000 concurrent users, and a Playwright/Cucumber BDD automation suite that eliminated manual regression testing. At SUNY Research Foundation, developed backend services (Python, FastAPI) and managed data across Amazon RDS (PostgreSQL) and DynamoDB as part of a 5-person Agile team, shipping a nationally distributed digital exhibit platform now serving museum partners across the U.S. Also built Interstellar, a developer intelligence platform that detects drift between engineering intent and implementation, powered by FastAPI, LLM-based code analysis, and AI evals triggered on every commit."
+  },
+  {
+    "id": "education",
+    "source": "resume",
+    "title": "Education",
+    "content": "Binghamton University, State University of New York, Binghamton, NY. Bachelor of Science in Computer Science, GPA 3.80, Dean's List, May 2026. Relevant coursework: Data Structures & Algorithms, Object-Oriented Programming, Machine Learning, Operating Systems, Computer Architecture, Database Systems, Computer Networks, Theory of Computation, Cloud Computing, AI. Certifications: Python, C, C++ (IIT Bombay); OpenCV (University at Buffalo); Google Data Analytics."
+  },
+  {
+    "id": "skills",
+    "source": "resume",
+    "title": "Technical Skills",
+    "content": "Languages: Python, Java, C++, C, JavaScript, TypeScript, SQL, Bash (strong OOP foundation, transferable to C# and .NET). AI & Data: Scikit-learn, NumPy, Pandas, OpenCV, Hugging Face, LangChain, RAG, MCP, pgvector, OpenAI APIs, AI Evals. Web & Backend: React, Node.js, Express, MongoDB, PostgreSQL, FastAPI, Flask, Django, Pydantic, REST APIs, WordPress. Architecture & Patterns: CLEAN Architecture, Microservices, RESTful Design, Agile, Scrum. Testing & Observability: k6, Playwright, Cucumber BDD, Grafana, InfluxDB, Integration & Unit Testing, CI/CD, Evals. Cloud & DevOps: Docker, AWS (EC2, RDS, DynamoDB, Aurora), Databricks, GitHub Actions, Linux, Infrastructure as Code. Tools: Git, Jira, Confluence, Jupyter, VS Code, Cursor, Navicat, Claude Code."
+  },
+  {
+    "id": "experience-acarin-swe",
+    "source": "resume",
+    "title": "Experience: Acarin Inc, Software Engineer",
+    "content": "Acarin Inc, Software Engineer, Baltimore, MD, Mar 2026 - Present. Built a real-time observability pipeline using Docker, InfluxDB, and Grafana, deployed across the team's CI/CD workflow to surface p95/p99 latency, error rates, and throughput for an AI-powered HR platform under 20,000 concurrent virtual users. Designed per-user telemetry tracking end-to-end latency across Keycloak SSO auth, LLM response, and UI render stages, enabling root-cause isolation and reducing mean time to resolution across the SDLC. Instrumented MissionMind AI's HR Worker using k6 to model multi-step user journeys through RBAC and AI assistant flows, exposing LLM timeouts and permission gaps before they hit production. Delivered structured failure telemetry reports correlating auth, LLM, and rendering bottlenecks to backend fixes, directly informing sprint planning for an 8-person Agile team."
+  },
+  {
+    "id": "experience-acarin-intern",
+    "source": "resume",
+    "title": "Experience: Acarin Inc, Software Automation Engineer Intern",
+    "content": "Acarin Inc, Software Automation Engineer Intern, Baltimore, MD, Jan 2026 - Mar 2026. Built an end-to-end BDD automation suite using Playwright and Cucumber (TypeScript), deployed via GitHub Actions CI/CD, replacing all manual regression testing across enterprise HR workflows. Designed a three-layer Page Object Model (feature files, step definitions, page objects) following CLEAN architecture, enabling non-technical QA members to write test scenarios in plain English with zero code changes. Integrated Playwright MCP with Claude Code to automate broken UI selector discovery and patching on a live browser, cutting new workflow creation time from days to hours."
+  },
+  {
+    "id": "experience-suny",
+    "source": "resume",
+    "title": "Experience: SUNY Research Foundation, Back End Developer",
+    "content": "SUNY Research Foundation, Back End Developer, Binghamton, NY, Feb 2025 - Dec 2025. Developed backend services using Python, FastAPI and building RESTful API endpoints with Pydantic-validated schemas to support structured research data ingestion and retrieval workflows. Managed relational data in Amazon RDS (PostgreSQL), designing normalized schemas and writing optimized SQL queries for content management and multi-stakeholder data access. Stored and queried flexible document data in Amazon DynamoDB, leveraging its serverless NoSQL model for high-throughput, low-latency reads across research modules. Set up and maintained a CI/CD pipeline using GitHub Actions, automating build, test, and deployment stages to streamline releases and reduce manual overhead across the development lifecycle. Participated in Agile/Scrum ceremonies including sprint planning, daily standups, and retrospectives, tracking tasks and progress in Jira as part of a 5-person development team. Shipped a nationally distributed digital exhibit platform now serving museum partners across the United States."
+  },
+  {
+    "id": "experience-rescon",
+    "source": "resume",
+    "title": "Experience: Binghamton University ITS, Residential Computer Consultant (ResCon)",
+    "content": "Binghamton University ITS, Residential Computer Consultant (ResCon), Binghamton, NY, Feb 2025 - Jan 2026. Provided tier-1 technical support to on-campus residents via email, the ITS Help Desk, and in-person house calls, responding to inquiries within the program's 24-48 hour SLA. Troubleshot and resolved Wi-Fi and campus network connectivity issues across laptops, phones, game consoles, and smart TVs, along with OS, software installation, and account login problems on Windows and macOS. Documented each support request and resolution in TeamDynamix to maintain a clean handoff trail, and escalated unresolved or complex issues to Senior ResCons and the ITS coordinator at the Technology Hub. Guided students through university IT resources (SSO, Brightspace, Google Workspace, storage tools) with a focus on clear communication and a calm, customer-first approach."
+  },
+  {
+    "id": "leadership",
+    "source": "resume",
+    "title": "Leadership & Extracurricular",
+    "content": "Course Assistant, Data Structures & Algorithms, Binghamton University, Jan 2025 - May 2026: Designed coding problems and test cases; supported students with debugging during weekly labs and office hours; collaborated with professor to monitor course progress and improve project quality. Association for Computing Machinery (ACM), Member, Binghamton University, Oct 2024 - May 2026: Ran weekly data-structures workshops and presented on emerging technologies; paired with teammates on coding challenges focusing on pattern recognition and competitive programming. Google Developer Student Club, Core Member, VIT Chennai, Aug 2022 - Jul 2024: Led operations for a 72-hour zonal hackathon with 1,500+ participants, coordinating venues, judging panels, and sponsor logistics across multiple tracks. Toastmasters Club, VP of Public Relations, VIT Chennai, Nov 2023 - Aug 2024: Tracked and guided 30+ members through educational speech pathways; organized and ran chapter meetings to strengthen public-speaking and leadership competencies."
+  },
+  {
+    "id": "micasa-hackathon",
+    "source": "resume",
+    "title": "MICASA UX Hackathon - Runner-Up",
+    "content": "MICASA UX Hackathon, Runner-Up, May 2025. Redesigned the guest onboarding experience for MICASA, a platform reimagining \"third spaces\" for artists and creatives. Designed lo-fi and hi-fi prototypes in Figma, introducing invite-code entry, deferred signup, and dashboard-first navigation. Improved event discoverability and first-time guest engagement, aligning flows with user mental models validated through judge feedback."
+  },
+  {
+    "id": "quantum-research",
+    "source": "resume",
+    "title": "Quantum Computing Research",
+    "content": "Quantum Computing Research, under Prof. Yiming Zheng, Binghamton, NY, Jan 2025 - Present. Conducting research on quantum algorithms and error correction techniques to optimize computational efficiency. Implementing quantum circuits using Qiskit to explore applications in secure computing and cryptography. Preparing findings for conference submission and assisting with lab publications."
+  },
+  {
+    "id": "clubchat-overview",
+    "source": "project:ClubChat",
+    "title": "ClubChat - Overview & What Was Built",
+    "content": "ClubChat (github.com/parks3131/ClubChat): a purpose-built team communication app for running clubs (and similar sports clubs), built to replace a duct-taped combination of GroupMe + Excel screenshots + one-off chat groups per race. The club this was built for coordinates everything through GroupMe today, which wasn't designed for this use case: workout plans get built in Excel, screenshotted, and pasted into chat as an image, then manually pinned; race logistics get handled by spinning up an entirely new GroupMe group per race, repeated from scratch every time with no reusable structure; nothing is actually structured data. ClubChat was designed as a reusable template any club could deploy, with two nested layers: (1) The general club - a persistent home base with group chat (text, photos, reactions, pinned/announcement messages), a shared calendar (races, practices, team events), and admin-authored weekly workout plans. (2) Races & Meets - the key insight of the whole design: a race isn't a separate product concept, it's the same shape as a club, nested one level down. Each race gets its own membership list, scoped chat, workout plan, carpool group assignments, and a results/logistics page, without duplicating any features. Build order was deliberate, sequenced by fastest value delivery: chat -> club membership/roles -> calendar -> weekly routines -> full race sub-flow (sub-chat, carpools, results) -> polls. A running spec (SPEC.md) and detailed build history (docs/HISTORY.md) documented every decision and bug along the way."
+  },
+  {
+    "id": "clubchat-tech-choices",
+    "source": "project:ClubChat",
+    "title": "ClubChat - Technical Choices & Proudest Architectural Decision",
+    "content": "ClubChat tech choices: React Native + Expo, with file-based routing (Expo Router), targeting iOS, Android, and web - important for a small club that can't demand everyone install a native app; being reachable from a browser link is a real feature, not a nice-to-have. Supabase (Postgres + Auth + Realtime + Storage) instead of a NoSQL document store - the domain is inherently relational: a club has members, a race has a sub-roster of a club's members, a carpool group is a sub-group of a race's roster, and permissions cascade through all of it. That's exactly what a relational database with row-level security is good at. The architectural decision proudest of: instead of building 'club chat' and 'race chat' as two separate features, messaging was modeled as a generic table that can optionally belong to a club, a race, or a private admin-only 'Eboard' space via nullable foreign keys (race_id, eboard_channel_id). Every downstream feature - messages, reactions, pins, announcements, realtime updates - was written once against that generic table. That bet paid off directly: when the race sub-flow was built, it got full feature parity with zero changes to messages/reactions permission policies, and the same happened again when the private admin-only Eboard space was added."
+  },
+  {
+    "id": "clubchat-engineering-problems",
+    "source": "project:ClubChat",
+    "title": "ClubChat - Real Engineering Problems Hit and Solved",
+    "content": "ClubChat debugging stories: (1) A subtle Postgres RLS chicken-and-egg bug - club creation was failing with a security-policy violation that looked like a platform-wide outage. Root cause: INSERT ... RETURNING (which Supabase's client generates by default) re-checks the row it just inserted against the table's SELECT policy, not just the INSERT policy - the creator of a new club wasn't a 'member' yet at that exact instant, so the read-back failed. Fixed by making the SELECT policy also allow created_by = auth.uid(), and documented the pattern so it wouldn't get re-hit on future tables with the same shape. (2) Soft-delete over hard-delete for moderation - a live test caught that a hard DELETE broke the chat's pagination/merge logic; switched to a deleted_at soft-delete with a 'This message was deleted' tombstone, simpler and better UX. (3) Account deletion done properly - a literal hard-delete would break foreign key relationships, so the profile is anonymized and future sign-in banned via Supabase's auth layer instead, a tradeoff explicitly flagged and signed off on. (4) Chat pagination - capped initial load to the latest 50 messages (indexed, verified with EXPLAIN), with scroll-triggered 'load earlier' pagination keyed off message ID so it survives concurrent realtime updates without losing data."
+  },
+  {
+    "id": "clubchat-current-state",
+    "source": "project:ClubChat",
+    "title": "ClubChat - Current State & What It Demonstrates",
+    "content": "ClubChat current state: the core product (chat, clubs/roles, calendar, weekly routines, full race sub-flow with carpools, polls) is fully shipped and covered by an automated test suite + CI. A self-directed App/Play Store review audit also led to shipping photo attachments, self-service account deletion, chat moderation (delete/report), and in-app Privacy Policy/Terms. What this project demonstrates: translating a messy real-world workflow into a clean relational domain model; making and defending non-obvious architecture decisions (generic channels, Postgres over Firestore) that paid off later; real production concerns beyond 'the feature works' - RLS, pagination at scale, moderation, privacy/compliance, CI; debugging discipline, with the RLS incident as a good interview story about a problem that looked catastrophic but turned out to be a one-line policy gap found through systematic testing."
+  },
+  {
+    "id": "newsletter-overview",
+    "source": "project:Parks Tech USA Daily Brief",
+    "title": "Parks Tech USA Daily Brief - Overview, Why Built, Architecture",
+    "content": "Parks Tech USA Daily Brief (github.com/parks3131/parks-news-letter): an automated newsletter system that runs unattended every morning at 6 AM, scrapes ~10 news sources across three categories (AI, Startups/Jobs, US Immigration), uses an LLM to editorially select and summarize the best stories, renders a branded HTML email, and sends it to a subscriber list, all on a custom domain with zero server to maintain. Why built: end-to-end ownership (domain registration -> DNS/email auth -> backend pipeline -> CI/CD scheduling -> real recipients getting real email, not a toy demo); practical LLM integration (using an LLM as a tool-calling orchestrator and editorial filter - summarize + rank - not just a chatbot wrapper); production debugging under real constraints (commit history reflects real operational bugs - timeouts, silent failures, parsing bugs - fixed along the way). Architecture: GitHub Actions (cron, 6 AM EST) triggers main.py, which fans out to sources/*.py (fetch feeds in parallel via ThreadPoolExecutor: Hacker News, RSS with 16+ feeds, Dev.to, NewsAPI, arXiv, Reddit), then agent/tools.py (dedupe, filter to last 24h, LLM summarize + select via OpenRouter -> Llama 3.3 70B), then mailer/templates.py (render branded HTML email), subscribers/db.py (SQLite locally / env var in CI), and mailer/sender.py (send via Resend, SMTP fallback)."
+  },
+  {
+    "id": "newsletter-pipeline-details",
+    "source": "project:Parks Tech USA Daily Brief",
+    "title": "Parks Tech USA Daily Brief - Pipeline Details",
+    "content": "Parks Tech USA Daily Brief pipeline: each morning covers AI (top 10), Startups/Jobs (top 5), US Immigration (top 5), configured in config.py, driven end-to-end by main.py. Fetch layer (sources/): six independent source modules each return a normalized {title, url, source, published_at, category} dict. Hacker News pulls top 50 stories filtered by per-category keyword sets; RSS is the widest net (TechCrunch, VentureBeat, The Verge, Wired, MIT Tech Review, direct blogs from OpenAI/Anthropic/DeepMind/Meta, Reuters, NPR, Politico for immigration); Dev.to, NewsAPI, arXiv, Reddit are used for the AI category. All six run in parallel via ThreadPoolExecutor with per-future timeouts so one slow/dead feed can't stall the run. Selection layer (agent/tools.py): fetch ~50-100 raw candidates per category, deduplicate by normalized title, filter to last 24 hours (articles with unparseable/missing dates are deliberately kept rather than dropped), sort by recency and cap to 15 candidates per category, then one LLM call per category writes a one-sentence under-50-word non-clickbait summary for each candidate and picks the best N by newsworthiness/relevance as strict JSON; if the LLM call fails, a fallback takes the top N by recency so the run never hard-fails on an LLM hiccup. Compose & send (mailer/): templates.py hand-builds a responsive HTML email with inline styles for Gmail/Outlook rendering plus a plain-text version; sender.py sends via Resend with an SMTP fallback. Subscribers: SQLite for local dev, a SUBSCRIBERS GitHub Actions secret (comma-separated) in CI since runners are ephemeral. Scheduling: no server, no VM, no cron daemon - a GitHub Actions cron triggers a fresh checkout + pip install + python main.py every day, with workflow_dispatch for manual firing."
+  },
+  {
+    "id": "newsletter-debugging-trail",
+    "source": "project:Parks Tech USA Daily Brief",
+    "title": "Parks Tech USA Daily Brief - Debugging Trail",
+    "content": "Parks Tech USA Daily Brief production-hardening bug history: recipients were silently mangled because the SUBSCRIBERS env string was iterated character-by-character instead of split on commas, fixed with explicit .split(\",\") parsing. Weak/duplicate summaries occurred because HN articles were uncapped and JSON was sometimes double-encoded by the model, fixed by capping HN volume, adding an LLM summarization step, and handling double-encoded tool calls. Selection was originally just 'first N fetched' with no ranking logic, fixed by fetching 30 candidates and having the LLM read and rank them. Stale articles were slipping in due to no date filtering and weak AI source coverage, fixed with a 48h filter, parallelized fetching, and added Anthropic/OpenAI/DeepMind/Meta/Mistral RSS feeds. Occasional infinite hangs happened because there were no timeouts on HTTP calls or the overall job, fixed with a 15-minute job timeout and 60s API timeout. The agent loop was slow/flaky with extra LLM round-trips because it used free-form agentic tool-calling for a fixed, always-identical sequence of steps; this was replaced with a direct deterministic pipeline, reducing candidates from 30 to 15 for speed. GitHub Actions was cancelling the whole job at 15 minutes because some sub-fetch was hanging, fixed by fixing hanging timeouts at the request level. Email sends were 'succeeding' when they weren't because send_email() returned False correctly but the caller didn't distinguish 'no SMTP creds configured' from a real failure (also cron running exactly on :00 collided with GitHub's scheduler backlog), fixed by failing loudly on missing SMTP creds and offsetting cron to :07 past the hour. A 48h window let slightly-stale news through and the Reddit fetch was written but never called, fixed by tightening to 24h and wiring fetch_reddit into the actual fetch. Notably, the full OpenAI-style tool-calling agent loop (system prompt, MAX_ITERATIONS, fallback parsing) still exists in main.py - the 'proper' agentic loop was built first, then deliberately simplified to a direct deterministic pipeline once it became clear the task was always the same five steps, since letting an LLM decide control flow added latency and failure surface without adding value. This is an 'over-engineered it, noticed, and simplified' story showing judgment."
+  },
+  {
+    "id": "newsletter-tech-choices",
+    "source": "project:Parks Tech USA Daily Brief",
+    "title": "Parks Tech USA Daily Brief - Why These Tech Choices",
+    "content": "Parks Tech USA Daily Brief tech choice rationale: OpenRouter + Llama 3.3 70B instead of calling a provider directly, for model flexibility/cost control, swappable via the OPENROUTER_MODEL env var without code changes. Resend over raw SMTP for deliverability - Resend plus DKIM/SPF/DMARC on a real domain (parkstechusa.com, registered on Namecheap) is why emails land in the inbox instead of spam, a domain/DNS setup most portfolio projects skip. GitHub Actions over a VPS/cron box: free, zero maintenance, built-in secrets management, logs, and manual re-run. SQLite for local plus an env var for CI avoided standing up a database service for a single-table use case while keeping CI stateless. ThreadPoolExecutor for fan-out fetching was a straightforward win for I/O-bound network calls across 6 heterogeneous sources given GitHub Actions' 15-minute job cap."
+  },
+  {
+    "id": "parksnews-story",
+    "source": "project:Parks News",
+    "title": "Parks News - The Story & What It Does",
+    "content": "Parks News (github.com/parks3131/parks-news): the idea came from scrolling between five different apps - TechCrunch, Hacker News, ESPN, an RSS reader - trying to catch up on what had been missed, and realizing the want wasn't for more news apps but for one thing that knew what 'news' meant personally, not a generic feed ranked by engagement bait. Parks News is a personal news curator agent: pick which sources matter (AI research labs, tech blogs, general news, sports, dev news), and an LLM agent fetches them live, reads everything, and ranks the 10 most significant stories with a score and a one-line 'why this made the cut.' What it does: choose from 18 curated RSS sources across 5 categories (AI, Tech, General, Sports, Dev) including Anthropic, OpenAI, major news outlets, ESPN; an LLM-driven agent autonomously calls the fetch tool for every source selected, pulling live RSS feeds; once everything is fetched, the agent ranks stories on significance, novelty, breadth of impact, and recency; results stream back in real time so the agent's work is visible ('Fetching: techcrunch, hacker-news...', 'Finding top 10... (6/10 ranked)') instead of a spinner; each story card shows source, publish date, relevance score, and why the agent picked it."
+  },
+  {
+    "id": "parksnews-tech",
+    "source": "project:Parks News",
+    "title": "Parks News - Tech Stack & What Made It Interesting",
+    "content": "Parks News tech stack: Next.js 16 (App Router), TypeScript; Tailwind CSS 4 for styling; OpenAI SDK pointed at OpenRouter so the underlying reasoning model can be swapped without touching app code; an agentic tool-calling loop where the agent decides which sources to call, executes them in parallel, and only moves to ranking once every requested source has responded; rss-parser for pulling and normalizing feeds from wildly inconsistent RSS formats; Server-Sent Events (streaming) via the app/api/news/route.ts API route returning a ReadableStream so the frontend gets a live sequence of events instead of one blocking response; a 15-minute in-memory cache to avoid hammering upstream feeds; Vitest for unit tests. What made it interesting: designing the agent loop so it fetches sources in parallel tool calls, tolerates individual source failures gracefully (a dead feed shouldn't sink the whole run), and only proceeds to ranking once it has genuinely seen every requested source, not just 'enough.' Streaming the intermediate agent state (fetching -> fetched -> ranking -> done) turned a black-box API call into something that feels transparent and alive."
+  },
+  {
+    "id": "interstellar-overview",
+    "source": "project:Interstellar",
+    "title": "Interstellar - What It Is & Why It Was Built",
+    "content": "Interstellar (github.com/parks3131/Interstellar): a developer intelligence platform that connects to the tools engineering teams already use - Jira, Slack, GitHub, Figma, and Docs - and reasons across them to catch when what's actually being built has drifted from what was intended, then generates a structured, agent-ready spec to fix it. Core loop: Ingest -> Reason -> Flag (if drift) or Spec (if aligned) -> Agent executes. It's not a retrieval/search tool - the reasoning layer holds two pictures in context at once, 'what was supposed to be built' (Jira ticket, PRD, Slack decisions) vs. 'what is actually being built' (the live GitHub PR diff), and makes an active judgment call about whether they match. Why built: teams lose time when a PR quietly expands past its ticket's scope, or a critical fix gets pushed directly to main bypassing review, and nobody notices until it's a production incident or a messy retro. Interstellar catches that gap at PR-open time, in real time, and instead of just flagging the problem, hands back a structured remediation spec an engineer (or an agent) can act on immediately."
+  },
+  {
+    "id": "interstellar-tech-stack",
+    "source": "project:Interstellar",
+    "title": "Interstellar - Tech Stack",
+    "content": "Interstellar tech stack: Backend is Python + FastAPI, a single-language backend by design, with Pydantic for all schema validation. LLM reasoning uses OpenRouter (openai/gpt-oss-120b) with two-pass calls: drift detection, then remediation spec generation. Relational store is PostgreSQL via Supabase, used as an event log for drift events, remediation specs, and acknowledgements. Graph store is Neo4j (Aura), a knowledge graph linking Engineers, PRs, Jira tickets, and Services, enabling relationship queries like 'which engineer drifts on this service repeatedly?' instead of scanning rows. Frontend is Next.js 16 + TypeScript, a multi-component dashboard with a dark theme. Integrations include GitHub webhooks, Jira (including Atlassian Document Format parsing), and Slack incoming webhooks. Infra uses ngrok for local webhook testing."
+  },
+  {
+    "id": "interstellar-achievements",
+    "source": "project:Interstellar",
+    "title": "Interstellar - Achievements & Build Phases",
+    "content": "Interstellar build phases: (1) Reasoning engine proven first - drift classification (aligned / scope creep / policy violation) correctly classified as NONE / HIGH / CRITICAL before any real API was touched. (2) Real ingest adapters transforming raw GitHub PR + Jira webhook payloads, including Atlassian Document Format, into unified schemas. (3) A live webhook gateway where real GitHub PRs trigger live Jira lookups and automatic drift analysis end-to-end, validated against a live PR (SCRUM-5). (4) Automated remediation spec generation - on drift, a second LLM pass produces a structured fix-it spec instead of just a flag. (5) A persistence layer with Postgres-backed lifecycle (open -> acknowledged -> resolved) and gracefully degrading writes. (6) Real-time Slack alerting posting to #drift-alerts with severity, reasoning, and a PR link. (7) A knowledge graph in Neo4j linking engineers, PRs, tickets, and services for relationship queries beyond simple event logs. (8) A full dashboard: a Next.js UI with a live drift feed, a service-drift heatmap, and per-engineer drift history, wired to the DB in realtime. Net result: a working, end-to-end system from a raw GitHub webhook to a Slack alert to a persisted graph, that autonomously detects intent/execution drift and produces an actionable spec, with only human PR revision remaining as a later phase (agent-applied fixes)."
+  }
+]

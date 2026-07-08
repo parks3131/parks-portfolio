@@ -61,7 +61,12 @@ function renderAbout(): OutputLine[] {
     blank(),
     ...about
       .split("\n\n")
-      .flatMap((para) => [line(seg(para)), blank()])
+      .flatMap((para) => [
+        ...para.split("\n").map((row) =>
+          row.startsWith("- ") ? indented(seg(row)) : line(seg(row)),
+        ),
+        blank(),
+      ])
       .slice(0, -1),
   ];
 }
@@ -73,6 +78,9 @@ function renderProjects(): OutputLine[] {
     lines.push(indented(seg(project.tagline, "text-neutral-300")));
     lines.push(indented(seg(`Technologies: ${project.tech.join(", ")}`, "text-neutral-500")));
     project.highlights.forEach((h) => lines.push(indented(seg(`- ${h}`))));
+    if (project.github) {
+      lines.push(indented(seg("GitHub: "), seg(project.github, "text-cyan-400 underline", project.github)));
+    }
     lines.push(blank());
   });
   return lines.slice(0, -1);

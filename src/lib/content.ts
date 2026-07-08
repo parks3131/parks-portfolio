@@ -15,7 +15,14 @@ At Acarin, I lead evals and observability for an AI agent HR worker using Langfu
 
 At SUNY Research Foundation, I built backend services (Python, FastAPI) and managed data across Amazon RDS (PostgreSQL) and DynamoDB as part of a 5-person Agile team, shipping a nationally distributed digital exhibit platform now serving museum partners across the U.S.
 
-I also built Interstellar, a developer intelligence platform that detects drift between engineering intent and implementation, powered by FastAPI, LLM-based code analysis, and AI evals triggered on every commit.`;
+I also built Interstellar, a developer intelligence platform that detects drift between engineering intent and implementation, powered by FastAPI, LLM-based code analysis, and AI evals triggered on every commit. This portfolio's own AI chat is a RAG system I built the same way — resume and project write-ups embedded into Postgres + pgvector on Neon, retrieved per question, with guardrails and rate limiting protecting the public endpoint.
+
+Other things I've built:
+- ClubChat — a nested club/race chat app on React Native + Supabase
+- Parks Tech USA Daily Brief — an automated newsletter agent that scrapes, ranks, and emails a daily tech digest
+- Parks News — a streaming LLM news-curation agent over 18 sources
+- MICASA UX Hackathon — Runner-up for redesigning guest onboarding in Figma
+- Quantum Computing Research — studying quantum algorithms and error correction under Prof. Yiming Zheng`;
 
 export const skills = {
   Languages: ["Python", "Java", "C++", "C", "JavaScript", "TypeScript", "SQL", "Bash"],
@@ -65,41 +72,81 @@ export type Project = {
   tagline: string;
   tech: string[];
   highlights: string[];
+  github?: string;
 };
 
 export const projects: Project[] = [
   {
-    name: "vLLM Open Source Contributions",
-    tagline: "5 merged PRs across vLLM and vLLM-Playground",
-    tech: ["Python", "Regex", "Jinja2", "PyTest", "Docker"],
+    name: "Portfolio AI Chat (RAG + Guardrails)",
+    tagline: "This site's own AI chat — retrieval-augmented answers grounded in an embedded corpus, with guardrails and rate limiting",
+    tech: ["Next.js", "PostgreSQL + pgvector", "Neon", "OpenAI Embeddings", "Upstash Redis", "OpenRouter"],
     highlights: [
-      "Implemented official FunctionGemma tool parser in vLLM (#31218)",
-      "Fixed Docker vs Podman container status detection",
-      "Resolved Start Server button race condition",
-      "Built chat export functionality (JSON/Markdown)",
-      "Added pre-commit hooks and formatted entire codebase",
+      "Chunked my resume and project write-ups into an embedded corpus in Neon Postgres, retrieved by cosine similarity per question instead of stuffing everything into one static prompt",
+      "Added regex-based jailbreak/off-topic guardrails and Upstash-backed per-IP rate limiting to protect a public endpoint spending real API credits",
+      "Proudest moment: catching my own guardrail bug in review — an output-leak check still matched the old prompt's section headers after I'd already switched the prompt to a retrieval-based format, a reminder to test what a change actually produces, not what used to be true",
     ],
+    github: "https://github.com/parks3131/parks-portfolio",
+  },
+  {
+    name: "ClubChat",
+    tagline: "Team communication app for running clubs — chat, calendar, and race logistics as one nested data model",
+    tech: ["React Native", "Expo", "Supabase", "PostgreSQL", "Row-Level Security"],
+    highlights: [
+      "Proudest architectural decision: modeled clubs and races as the same nested shape via a generic messaging table with nullable foreign keys, so race sub-chat, carpools, and results reused every feature with zero duplicated code",
+      "Tracked down a subtle Postgres RLS chicken-and-egg bug in INSERT ... RETURNING and fixed it with a documented policy pattern",
+      "Shipped soft-delete moderation, self-service account deletion, and in-app Privacy Policy/Terms alongside full test coverage + CI",
+    ],
+    github: "https://github.com/parks3131/ClubChat",
+  },
+  {
+    name: "Parks Tech USA Daily Brief",
+    tagline: "Automated newsletter that scrapes, ranks, and emails a personal daily tech/immigration digest every morning",
+    tech: ["Python", "GitHub Actions", "OpenRouter", "Resend", "ThreadPoolExecutor"],
+    highlights: [
+      "Fetches ~10 sources in parallel (Hacker News, 16+ RSS feeds, Dev.to, NewsAPI, arXiv, Reddit), dedupes, and has an LLM rank and summarize the best stories",
+      "Runs server-free on a GitHub Actions cron, with DKIM/SPF/DMARC on a custom domain so mail lands in the inbox",
+      "Proud moment: built the 'proper' agentic tool-calling loop first, then noticed the task was always the same five steps and deliberately simplified to a direct deterministic pipeline — judgment over cleverness",
+    ],
+    github: "https://github.com/parks3131/parks-news-letter",
+  },
+  {
+    name: "Parks News",
+    tagline: "LLM news-curation agent that streams live rankings across 18 sources instead of a static feed",
+    tech: ["Next.js", "TypeScript", "OpenAI SDK", "Server-Sent Events"],
+    highlights: [
+      "Agent decides which sources to call, fetches them in parallel, and ranks stories by significance, novelty, and recency",
+      "Streams intermediate agent state (fetching → ranking → done) over SSE instead of a blocking spinner",
+      "15-minute in-memory cache and Vitest unit tests keep it fast and reliable",
+    ],
+    github: "https://github.com/parks3131/parks-news",
   },
   {
     name: "Interstellar",
-    tagline: "Developer intelligence platform that detects drift between engineering intent and implementation",
-    tech: ["FastAPI", "Pydantic", "Python", "AI Evals", "GitHub Actions", "REST APIs"],
+    tagline: "Developer intelligence platform that catches drift between engineering intent and implementation",
+    tech: ["FastAPI", "Pydantic", "PostgreSQL", "Neo4j", "Next.js", "OpenRouter"],
     highlights: [
-      "Co-engineered intent-vs-implementation drift detection with CLEAN architecture service boundaries",
-      "Built schema-validated REST APIs for structured LLM-based code analysis",
-      "Designed AI eval pipelines to benchmark model output accuracy on every commit",
-      "Instrumented pipeline runs and eval results for full traceability and reproducibility",
+      "Two-pass LLM reasoning holds Jira/PRD intent and live GitHub PR diffs in context to classify drift as NONE/HIGH/CRITICAL",
+      "Generates a structured remediation spec on drift and posts real-time alerts to Slack with severity and a PR link",
+      "Neo4j knowledge graph links engineers, PRs, tickets, and services for relationship queries beyond simple event logs",
+    ],
+    github: "https://github.com/parks3131/Interstellar",
+  },
+  {
+    name: "MICASA UX Hackathon — Runner-Up",
+    tagline: "Redesigned guest onboarding for MICASA, a platform reimagining \"third spaces\" for artists and creatives",
+    tech: ["Figma"],
+    highlights: [
+      "Designed lo-fi and hi-fi prototypes introducing invite-code entry, deferred signup, and dashboard-first navigation",
+      "Improved event discoverability and first-time guest engagement, validated through judge feedback",
     ],
   },
   {
-    name: "AI-Powered Candidate-to-Job Matching Platform",
-    tagline: "Full-stack resume parsing and candidate ranking system",
-    tech: ["FastAPI", "PostgreSQL + pgvector", "OpenAI", "Docker", "AWS (EC2, RDS)", "GitHub Actions"],
+    name: "Quantum Computing Research",
+    tagline: "Research under Prof. Yiming Zheng on quantum algorithms and error correction",
+    tech: ["Qiskit"],
     highlights: [
-      "Parsed PDF resumes into structured JSON via LLM extraction",
-      "Ranked 100+ candidate profiles using cosine similarity over 1,536-dim embeddings",
-      "Achieved sub-500ms match latency with pgvector indexing and Redis caching",
-      "Containerized with Docker, deployed to AWS with CI/CD via GitHub Actions",
+      "Implementing quantum circuits to explore applications in secure computing and cryptography",
+      "Preparing findings for conference submission and assisting with lab publications",
     ],
   },
 ];
@@ -201,5 +248,11 @@ export const leadership = [
     org: "VIT Chennai",
     dates: "Nov 2023 – Aug 2024",
     detail: "Tracked and guided 30+ members through educational speech pathways.",
+  },
+  {
+    role: "Residential Computer Consultant (ResCon)",
+    org: "Binghamton University ITS",
+    dates: "Feb 2025 – Jan 2026",
+    detail: "Provided tier-1 technical support to on-campus residents, troubleshooting Wi-Fi, network, OS, and account issues within a 24–48 hour SLA.",
   },
 ];
