@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://parks-portfolio.vercel.app",
+        "HTTP-Referer": "https://parkstechusa.com",
         "X-Title": "Parks RPK Portfolio Terminal",
       },
       body: JSON.stringify({
