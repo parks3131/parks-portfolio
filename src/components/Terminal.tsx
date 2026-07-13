@@ -28,6 +28,7 @@ export default function Terminal() {
   const [now, setNow] = useState<Date | null>(null);
   const idRef = useRef(1);
   const chatHistoryRef = useRef<ChatMessage[]>([]);
+  const runningCommandsRef = useRef<Set<string>>(new Set());
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,11 +55,22 @@ export default function Terminal() {
     const trimmed = raw.trim();
     if (!trimmed) return;
 
-    if (trimmed.toLowerCase() === "clear") {
+    const key = trimmed.toLowerCase();
+
+    if (key === "clear") {
       setEntries([]);
       chatHistoryRef.current = [];
+      runningCommandsRef.current.clear();
       return;
     }
+
+    // Ignore repeat clicks/submits of a command that's still typing out —
+    // once it finishes (see onDone below), the same command can run again.
+    if (runningCommandsRef.current.has(key)) {
+      scrollToBottom();
+      return;
+    }
+    runningCommandsRef.current.add(key);
 
     const staticLines = renderCommand(trimmed);
     const id = idRef.current++;
@@ -150,7 +162,14 @@ export default function Terminal() {
               {entry.lines === null ? (
                 <span className="text-neutral-500">thinking…</span>
               ) : (
-                <TypedOutput lines={entry.lines} onProgress={scrollToBottom} onDone={scrollToBottom} />
+                <TypedOutput
+                  lines={entry.lines}
+                  onProgress={scrollToBottom}
+                  onDone={() => {
+                    scrollToBottom();
+                    runningCommandsRef.current.delete(entry.command.toLowerCase());
+                  }}
+                />
               )}
             </div>
           </div>
