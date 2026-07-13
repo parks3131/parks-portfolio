@@ -9,20 +9,15 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/parks-rpk-8479a3350/",
 };
 
-export const about = `Software Engineer with 2 years building backend systems, AI-powered platforms, and production observability infrastructure.
+export const about = `Software Engineer with 2 years building backend systems, AI-powered platforms, and production observability infrastructure. The throughline across all of it: making complex systems — especially AI ones — observable and trustworthy instead of black boxes.
 
-At Acarin, I lead evals and observability for an AI agent HR worker using Langfuse to track LLM traces, prompt performance, and drift across production agent runs, while owning the broader reliability stack for the enterprise AI HR platform. That includes real-time telemetry pipelines (Docker, InfluxDB, Grafana) stress-tested to 20,000 concurrent users, and a Playwright/Cucumber BDD automation suite that eliminated manual regression testing.
+At Acarin, I lead evals and observability for an AI agent HR platform, using Langfuse to catch LLM drift in production while owning the broader reliability stack: real-time telemetry (Docker, InfluxDB, Grafana) stress-tested to 20,000 concurrent users, and a Playwright/Cucumber BDD suite that replaced manual regression testing.
 
-At SUNY Research Foundation, I built backend services (Python, FastAPI) and managed data across Amazon RDS (PostgreSQL) and DynamoDB as part of a 5-person Agile team, shipping a nationally distributed digital exhibit platform now serving museum partners across the U.S.
+Before that, at SUNY Research Foundation, I built backend services in Python/FastAPI across PostgreSQL and DynamoDB as part of a 5-person Agile team, shipping a digital exhibit platform now serving museum partners across the U.S.
 
-I also built Interstellar, a developer intelligence platform that detects drift between engineering intent and implementation, powered by FastAPI, LLM-based code analysis, and AI evals triggered on every commit. This portfolio's own AI chat is a RAG system I built the same way — resume and project write-ups embedded into Postgres + pgvector on Neon, retrieved per question, with guardrails and rate limiting protecting the public endpoint.
+Outside of work I build end-to-end AI systems for fun — Interstellar (an intent-vs-implementation drift detector), this site's own RAG chatbot, an automated news digest agent, and more. Type 'projects' to see the full list.
 
-Other things I've built:
-- ClubChat — a nested club/race chat app on React Native + Supabase
-- Parks Tech USA Daily Brief — an automated newsletter agent that scrapes, ranks, and emails a daily tech digest
-- Parks News — a streaming LLM news-curation agent over 18 sources
-- MICASA UX Hackathon — Runner-up for redesigning guest onboarding in Figma
-- Quantum Computing Research — studying quantum algorithms and error correction under Prof. Yiming Zheng`;
+I'm most drawn to the seam between AI and the infrastructure that keeps it honest — evals, tracing, guardrails — the unglamorous plumbing that turns "the demo worked" into "it works in production."`;
 
 export const skills = {
   Languages: ["Python", "Java", "C++", "C", "JavaScript", "TypeScript", "SQL", "Bash"],
@@ -118,7 +113,7 @@ export const projects: Project[] = [
       "Streams intermediate agent state (fetching → ranking → done) over SSE instead of a blocking spinner",
       "15-minute in-memory cache and Vitest unit tests keep it fast and reliable",
     ],
-    github: "https://github.com/parks3131/parks-news",
+    github: "https://github.com/parks3131/parks-s-news",
   },
   {
     name: "Interstellar",

@@ -57,7 +57,7 @@ function renderHelp(): OutputLine[] {
 
 function renderAbout(): OutputLine[] {
   return [
-    line(seg(`👋 About ${profile.shortName}`, "text-amber-400")),
+    line(seg(`About ${profile.shortName}`, "text-amber-400")),
     blank(),
     ...about
       .split("\n\n")
@@ -72,7 +72,7 @@ function renderAbout(): OutputLine[] {
 }
 
 function renderProjects(): OutputLine[] {
-  const lines: OutputLine[] = [line(seg("🚀 Projects", "text-amber-400")), blank()];
+  const lines: OutputLine[] = [line(seg("Projects", "text-amber-400")), blank()];
   projects.forEach((project, i) => {
     lines.push(line(seg(`${i + 1}. `, "text-neutral-400"), seg(project.name, "text-cyan-400")));
     lines.push(indented(seg(project.tagline, "text-neutral-300")));
@@ -88,7 +88,7 @@ function renderProjects(): OutputLine[] {
 
 function renderSkills(): OutputLine[] {
   return [
-    line(seg("🛠 Skills", "text-amber-400")),
+    line(seg("Skills", "text-amber-400")),
     blank(),
     ...Object.entries(skills).map(([category, items]) =>
       line(seg(`${category}: `, "text-cyan-400"), seg(items.join(", "), "text-neutral-300")),
@@ -97,7 +97,7 @@ function renderSkills(): OutputLine[] {
 }
 
 function renderExperience(): OutputLine[] {
-  const lines: OutputLine[] = [line(seg("💼 Experience", "text-amber-400")), blank()];
+  const lines: OutputLine[] = [line(seg("Experience", "text-amber-400")), blank()];
   experience.forEach((job) => {
     lines.push(line(seg(job.role, "text-cyan-400"), seg(` · ${job.company}`, "text-neutral-400")));
     lines.push(indented(seg(`${job.location} · ${job.dates}`, "text-neutral-500")));
@@ -117,7 +117,7 @@ function renderExperience(): OutputLine[] {
 
 function renderContact(): OutputLine[] {
   return [
-    line(seg("📬 Contact", "text-amber-400")),
+    line(seg("Contact", "text-amber-400")),
     blank(),
     line(seg("Email: "), seg(profile.email, "text-cyan-400 underline", `mailto:${profile.email}`)),
     line(seg("GitHub: "), seg(profile.github, "text-cyan-400 underline", profile.github)),
@@ -128,7 +128,7 @@ function renderContact(): OutputLine[] {
 
 function renderEducation(): OutputLine[] {
   return [
-    line(seg("🎓 Education", "text-amber-400")),
+    line(seg("Education", "text-amber-400")),
     blank(),
     line(seg(education.school, "text-cyan-400")),
     line(seg(`${education.degree} · GPA: ${education.gpa} · ${education.honors}`)),
@@ -141,7 +141,7 @@ function renderEducation(): OutputLine[] {
 
 function renderCertifications(): OutputLine[] {
   return [
-    line(seg("📜 Certifications", "text-amber-400")),
+    line(seg("Certifications", "text-amber-400")),
     blank(),
     ...certifications.map((c) => line(seg(`- ${c}`))),
   ];
