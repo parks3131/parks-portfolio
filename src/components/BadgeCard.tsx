@@ -3,6 +3,7 @@
 import { RoundedBox, Text, useTexture } from "@react-three/drei";
 import type * as THREE from "three";
 import { profile } from "@/lib/content";
+import BadgeFlames from "@/components/BadgeFlames";
 
 function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
   return (
@@ -56,9 +57,17 @@ export default function BadgeCard() {
 
   return (
     <group>
-      {/* card body */}
+      {/* Card body. The faint emissive keeps it from reading as a black box
+          punched through the fire burning behind it. */}
       <RoundedBox args={[1.6, 2.2, 0.05]} radius={0.08} smoothness={4}>
-        <meshPhysicalMaterial color="#101014" roughness={0.35} metalness={0.1} clearcoat={0.4} />
+        <meshPhysicalMaterial
+          color="#101014"
+          roughness={0.35}
+          metalness={0.1}
+          clearcoat={0.4}
+          emissive="#0a3a1a"
+          emissiveIntensity={0.4}
+        />
       </RoundedBox>
 
       {/* Identical content on both faces, so the badge reads correctly no
@@ -73,6 +82,8 @@ export default function BadgeCard() {
         <torusGeometry args={[0.06, 0.02, 8, 24]} />
         <meshStandardMaterial color="#525252" metalness={0.8} roughness={0.3} />
       </mesh>
+
+      <BadgeFlames />
     </group>
   );
 }
