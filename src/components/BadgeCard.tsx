@@ -5,6 +5,14 @@ import type * as THREE from "three";
 import { profile } from "@/lib/content";
 import BadgeFlames from "@/components/BadgeFlames";
 
+// The photo is 1027x1531, and the plane keeps that aspect exactly so the figure
+// is never stretched. It hangs from just under the header bar down past the name,
+// which is legible over it because the photo's bottom fades out to nothing.
+const PHOTO_H = 1.52;
+const PHOTO_W = PHOTO_H * (1027 / 1531);
+const PHOTO_TOP = 0.63;
+const PHOTO_Y = PHOTO_TOP - PHOTO_H / 2;
+
 function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
   return (
     <>
@@ -24,18 +32,17 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
         PORTFOLIO
       </Text>
 
-      {/* avatar photo */}
-      <mesh position={[0, 0.15, 0.026]}>
-        <circleGeometry args={[0.5, 48]} />
-        <meshBasicMaterial map={avatarMap} toneMapped={false} />
-      </mesh>
-      <mesh position={[0, 0.15, 0.02]}>
-        <ringGeometry args={[0.49, 0.52, 48]} />
-        <meshBasicMaterial color="#22c55e" />
+      {/* Cut-out photo: the full frame with its background keyed out, rather
+          than a head cropped into a circle. alphaTest discards the transparent
+          margin instead of drawing it, so the quad's invisible rectangle never
+          writes depth over the flames. */}
+      <mesh position={[0, PHOTO_Y, 0.026]}>
+        <planeGeometry args={[PHOTO_W, PHOTO_H]} />
+        <meshBasicMaterial map={avatarMap} transparent alphaTest={0.04} toneMapped={false} />
       </mesh>
 
       <Text
-        position={[0, -0.62, 0.026]}
+        position={[0, -0.87, 0.03]}
         fontSize={0.13}
         color="#f5f5f5"
         anchorX="center"
@@ -53,7 +60,15 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
 }
 
 export default function BadgeCard() {
-  const avatarMap = useTexture("/images/avatar.jpg");
+  // A swinging badge samples the photo at a slant, where plain trilinear
+  // filtering smears it. Anisotropy is what keeps it sharp, and it is set on the
+  // loader callback rather than after the fact: mutating a hook's return value
+  // during render is what the immutability lint is there to stop. Three clamps
+  // the value to whatever the driver actually supports.
+  const avatarMap = useTexture("/images/avatar.png", (loaded) => {
+    const texture = Array.isArray(loaded) ? loaded[0] : loaded;
+    texture.anisotropy = 16;
+  });
 
   return (
     <group>

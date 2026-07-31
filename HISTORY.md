@@ -8,6 +8,45 @@ Newest first.
 
 ---
 
+## 2026-07-31 - Badge photo
+
+**The photo went in twice.** First as a square crop of the head, dropped into the existing circle
+with its green ring, which is what the old avatar was. Then, on the owner's call, as the whole
+frame with the background removed, so the figure stands on the card instead of sitting in a
+medallion. The second version is what shipped, and it took the circle and the ring with it.
+
+**Keying the background needed a flood fill, not a threshold.** The photo is a person in a
+stars-and-stripes tank top on white. Any "make white transparent" rule punches holes through the
+stripes and the stars. Filling inward from the border instead removes only the white connected to
+the frame, and the shirt survives intact.
+
+**A one-channel mask came back as three.** sharp promotes a raw single-channel image to three
+channels on the way out, so reading the blurred mask back one byte per pixel silently produced a
+striped alpha over the whole image rather than an error. Visible immediately when the cutout was
+composited over the card colour, and confirmed with a ten-by-ten buffer: 100 pixels in, 300 bytes
+out. `toColourspace("b-w")` before `.raw()` fixes it, and the script asserts the length now.
+
+Two smaller things fell out of the full-frame version. The photo crops the body mid-torso, so its
+bottom fades to nothing over the last 14% rather than ending on a hard line, and the name moved
+below the fade rather than sitting on top of the figure.
+
+**Then it looked soft, and that had three causes at once.** The texture had been written at 720px
+from a 1027px source and palette-quantised on top of that; the card swings, so it is sampled at a
+slant, and nothing was set for anisotropy; and the source is a phone photo that was never crisp
+to begin with. Fixed as three: full source resolution, `anisotropy` on the texture, and an
+unsharp mask baked into the asset. Canvas DPR was checked and exonerated - R3F already defaults
+to `[1, 2]`.
+
+Setting anisotropy is where the immutability lint bit: assigning to `avatarMap.anisotropy` in an
+effect is "modifying a value returned from a hook." It goes in `useTexture`'s load callback
+instead. Same family as [pitfall 4](SPEC/TECH/07-engineering-pitfalls.md).
+
+The keying script started as a one-off against a file outside the repo, then had to be written a
+second time an hour later for the resolution fix, which is the argument for keeping it:
+[`scripts/photo-cutout.mjs`](scripts/photo-cutout.mjs) now takes a source and a destination.
+
+---
+
 ## 2026-07-31 - A welcome for visitors who do not use terminals
 
 The opening line told a visitor to type `help`. That assumes the reader knows what a prompt is,

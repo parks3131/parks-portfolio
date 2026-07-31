@@ -42,6 +42,30 @@ ignores a kinematic move.
 grabbable.** A decorative mesh in front of the card silently steals the pointer events the drag
 depends on, and the symptom is "the badge stopped working" with nothing in the console.
 
+## The card photo
+
+A PNG whose background was keyed out ahead of time, drawn on a plane rather than masked into a
+circle. Three things about it are deliberate.
+
+- **The plane keeps the image's aspect ratio**, derived from the pixel dimensions in the
+  component. Picking a width and a height independently stretches the figure, and on a face that
+  is subtle enough to ship.
+- **`alphaTest` is set.** A transparent quad still writes depth across its whole rectangle, so
+  without it the invisible margin masks the flames behind the card.
+- **The image fades to nothing along its bottom edge**, which is why the name is legible sitting
+  over the end of it. The photo crops the body mid-torso, and a hard edge there reads as a
+  sticker.
+- **It is stored at full source resolution with anisotropy set**, because the card swings and a
+  slanted sample through plain trilinear filtering is where the softness comes from. Anisotropy
+  goes on in the `useTexture` load callback: mutating the hook's return value afterwards is what
+  the React immutability lint exists to stop.
+
+[`scripts/photo-cutout.mjs`](../../scripts/photo-cutout.mjs) produces the file, and replacing the
+photo means rerunning it rather than keying by hand. Keying is a flood fill inward from the
+frame, not a threshold on white: the tank top in the photo is full of white stripes and stars,
+and a global threshold punches holes straight through them. Only white connected to the border is
+background.
+
 ## Both faces
 
 The card's content is rendered twice, the second inside a group rotated by pi about Y, so the
