@@ -30,7 +30,7 @@ const PROMPT = "parks@portfolio:~$";
 
 function welcomeLines(): OutputLine[] {
   return textToLines(
-    `Hi, I'm ${profile.name}.\n\nWelcome to my interactive portfolio terminal. Type 'help' to see available commands, or ask anything about me in plain English.`,
+    `Hi, I'm ${profile.name}.\n\nWelcome to my interactive portfolio terminal. Not a terminal person? Just click the green commands at the top to read about me - no typing needed.\n\nOr type 'help' to see every command, and ask anything about me in plain English.`,
   );
 }
 

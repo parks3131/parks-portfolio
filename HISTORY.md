@@ -8,6 +8,15 @@ Newest first.
 
 ---
 
+## 2026-07-31 - A welcome for visitors who do not use terminals
+
+The opening line told a visitor to type `help`. That assumes the reader knows what a prompt is,
+and the people this site exists to reach - recruiters, hiring managers - largely do not. The
+green commands in the bar have been buttons the whole time and nothing said so. The welcome now
+says it first, and mentions typing second.
+
+---
+
 ## 2026-07-31 - Tab completion
 
 Closed the "tab completion" item that had been sitting in the roadmap's deferred list for a few

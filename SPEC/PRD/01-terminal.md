@@ -6,6 +6,12 @@ The primary surface. A visitor types a command or a question; the transcript acc
 replaces the "scroll through sections" navigation that every other portfolio uses, and it makes
 free-text questions feel like the native interaction rather than a bolted-on widget.
 
+## Opening state
+
+The transcript opens on a welcome entry that names both ways in, and it names clicking first.
+The commands in the bar are buttons, and a visitor who does not use a terminal should not have to
+work that out from a blinking prompt: the first instruction they read is to click one.
+
 ## Behaviour rules
 
 1. A recognised command renders immediately from local content and makes **no network call**.
