@@ -50,3 +50,22 @@ Without this, double-clicking `projects` interleaves two copies of the same outp
 
 Note the interaction with skip: a skip fires `onDone` immediately, which clears the entry from
 that set, so a skipped command becomes re-runnable at once. That is the intended behaviour.
+
+## Tab completion
+
+`completeCommand` lives beside `COMMAND_LIST` rather than in the component, because which strings
+are completable is command knowledge. It is pure and returns one of three shapes: `none`,
+`single`, or `ambiguous` carrying both the longest common prefix and the candidates.
+
+`preventDefault` runs before anything else in the key handler. Tab's default is to move focus out
+of the input, and it does that whether or not a completion was found, so deciding first and
+preventing second loses focus on every unmatched Tab.
+
+Candidates are pushed into the transcript as an entry with **`command: null`** (so no prompt line
+renders above them) and **`instant: true`** (so `TypedOutput` reveals them whole). Both fields
+exist for this one case. Typing the candidate list out character by character would make Tab
+slower than typing the command it was meant to save.
+
+Note the interaction with skip: the window keydown listener fires for Tab as well, so a Tab
+during an animation both completes and skips. That is consistent with "any key skips" and is
+intended.

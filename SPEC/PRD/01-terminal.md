@@ -28,6 +28,16 @@ free-text questions feel like the native interaction rather than a bolted-on wid
 12. Clicking anywhere in the terminal focuses the input.
 13. The last ten exchanges are sent as chat history, so follow-up questions like "what about the
     second one" resolve.
+14. **Tab completes the command being typed**, as a shell does. One match completes it outright;
+    several complete as far as they agree and then print the candidates.
+15. **Tab never moves focus.** The browser's own behaviour for Tab is to leave the input, and it
+    does that whether or not there was anything to complete.
+16. Tab with an empty input prints every command. Tab with no match does nothing at all, and
+    adds no line to the transcript.
+17. Only the first word completes. Once the input contains a space it is a question, not a
+    command, so Tab is inert.
+18. **Candidates print instantly rather than typing out**, and without a prompt line above them,
+    because they are not a command that was run.
 
 ## Commands
 
@@ -58,7 +68,9 @@ free-text questions feel like the native interaction rather than a bolted-on wid
 ## Out of scope
 
 - Command history with the up arrow. Deliberate for now, recorded in the roadmap.
-- Tab completion.
+- Completing anything other than a command name. There are no arguments to complete.
+- Requiring a second Tab before listing candidates, as bash does by default. Listing on the
+  first Tab is a deliberate deviation: it is friendlier, and there is no screen to flood.
 - Piping, arguments, or anything that implies a real shell. `sudo` is the only nod, and it is a
   joke rather than a feature.
 
@@ -69,3 +81,6 @@ free-text questions feel like the native interaction rather than a bolted-on wid
 - [ ] Clicking mid-animation completes the output instantly and the caret disappears.
 - [ ] A command run after a skip still animates.
 - [ ] `clear` followed by a follow-up question shows the model has no prior context.
+- [ ] Typing `exp` and pressing Tab yields `experience`, with the caret still in the input.
+- [ ] Typing `c` and pressing Tab lists the three `c` commands and leaves the input at `c`.
+- [ ] Pressing Tab on an unmatched prefix adds nothing to the transcript.

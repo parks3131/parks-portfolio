@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { COMMAND_LIST, renderCommand, textToLines, type OutputLine } from "@/lib/commands";
+import {
+  COMMAND_LIST,
+  completeCommand,
+  completionLines,
+  renderCommand,
+  textToLines,
+  type OutputLine,
+} from "@/lib/commands";
 import { profile } from "@/lib/content";
 import TypedOutput from "@/components/TypedOutput";
 
 type Entry = {
   id: number;
-  command: string;
+  // null renders no prompt line, for output that was not a command: a tab
+  // completion's candidate list.
+  command: string | null;
   lines: OutputLine[] | null;
+  // Shown in full straight away rather than typed out. A shell prints its
+  // completion candidates instantly, and watching them appear letter by letter
+  // would make tab slower than typing the command.
+  instant?: boolean;
 };
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -26,7 +39,7 @@ export default function Terminal() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
-  // Entries with an id at or below this are shown in full immediately —
+  // Entries with an id at or below this are shown in full immediately:
   // clicking the terminal or pressing a key skips whatever is still typing out.
   const [skipUpTo, setSkipUpTo] = useState(-1);
   const idRef = useRef(1);
@@ -89,8 +102,8 @@ export default function Terminal() {
       return;
     }
 
-    // Ignore repeat clicks/submits of a command that's still typing out —
-    // once it finishes (see onDone below), the same command can run again.
+    // Ignore repeat clicks/submits of a command that's still typing out.
+    // Once it finishes (see onDone below), the same command can run again.
     if (runningCommandsRef.current.has(key)) {
       scrollToBottom();
       return;
@@ -159,6 +172,25 @@ export default function Terminal() {
     void runCommand(value);
   }
 
+  // Tab completion. Must preventDefault before anything else: the browser's
+  // own behaviour for Tab is to move focus out of the input, and it does that
+  // whether or not there is anything to complete.
+  function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Tab") return;
+    e.preventDefault();
+
+    const completion = completeCommand(input);
+    if (completion.kind === "none") return;
+
+    setInput(completion.value);
+    if (completion.kind === "ambiguous") {
+      setEntries((prev) => [
+        ...prev,
+        { id: idRef.current++, command: null, lines: completionLines(completion.matches), instant: true },
+      ]);
+    }
+  }
+
   return (
     <div className="flex h-full flex-col text-sm text-neutral-200" onClick={handleTerminalClick}>
       <div className="border-b border-neutral-800 px-4 py-2 text-neutral-400 flex flex-wrap gap-x-2">
@@ -184,21 +216,25 @@ export default function Terminal() {
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {entries.map((entry) => (
           <div key={entry.id}>
-            <p>
-              <span className="text-green-500">{PROMPT}</span>{" "}
-              <span className="text-neutral-100">{entry.command}</span>
-            </p>
+            {entry.command !== null && (
+              <p>
+                <span className="text-green-500">{PROMPT}</span>{" "}
+                <span className="text-neutral-100">{entry.command}</span>
+              </p>
+            )}
             <div className="mt-1 text-neutral-300">
               {entry.lines === null ? (
                 <span className="text-neutral-500">thinking…</span>
               ) : (
                 <TypedOutput
                   lines={entry.lines}
-                  revealAll={entry.id <= skipUpTo}
+                  revealAll={entry.instant === true || entry.id <= skipUpTo}
                   onProgress={scrollToBottom}
                   onDone={() => {
                     scrollToBottom();
-                    runningCommandsRef.current.delete(entry.command.toLowerCase());
+                    if (entry.command !== null) {
+                      runningCommandsRef.current.delete(entry.command.toLowerCase());
+                    }
                   }}
                 />
               )}
@@ -216,6 +252,7 @@ export default function Terminal() {
           value={input}
           disabled={loading}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleInputKeyDown}
           className="flex-1 bg-transparent outline-none disabled:opacity-50"
           placeholder={loading ? "waiting for response…" : "type a command or ask a question"}
           aria-label="Terminal input"

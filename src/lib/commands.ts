@@ -202,3 +202,40 @@ export function renderCommand(raw: string): OutputLine[] | null {
 export function textToLines(text: string): OutputLine[] {
   return text.split("\n").map((t) => line(seg(t || " ")));
 }
+
+export type Completion =
+  | { kind: "none" }
+  | { kind: "single"; value: string }
+  | { kind: "ambiguous"; value: string; matches: string[] };
+
+function longestCommonPrefix(values: string[]): string {
+  let prefix = values[0] ?? "";
+  for (const value of values) {
+    while (!value.startsWith(prefix)) prefix = prefix.slice(0, -1);
+  }
+  return prefix;
+}
+
+/**
+ * Tab completion over COMMAND_LIST, following shell behaviour: one match
+ * completes, several complete as far as they agree and then list.
+ *
+ * Pure, and living here rather than in the terminal component, because which
+ * strings are completable is command knowledge. Only the first word is ever
+ * completed: these commands take no arguments, so anything after a space is a
+ * question rather than a command name.
+ */
+export function completeCommand(input: string): Completion {
+  const prefix = input.trimStart().toLowerCase();
+  if (prefix.includes(" ")) return { kind: "none" };
+
+  const matches = COMMAND_LIST.filter((cmd) => cmd.startsWith(prefix));
+  if (matches.length === 0) return { kind: "none" };
+  if (matches.length === 1) return { kind: "single", value: matches[0] };
+  return { kind: "ambiguous", value: longestCommonPrefix([...matches]), matches: [...matches] };
+}
+
+/** The candidate list a shell prints under the prompt on an ambiguous tab. */
+export function completionLines(matches: string[]): OutputLine[] {
+  return [line(...matches.map((cmd, i) => seg(`${i === 0 ? "" : "  "}${cmd}`, "text-green-500")))];
+}

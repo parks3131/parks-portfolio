@@ -15,8 +15,8 @@ so none of it gets rediscovered as a surprise.
 
 ## Deferred features
 
-- **Command history on the up arrow.** Expected by anyone who reads it as a real shell.
-- **Tab completion** for commands.
+- **Command history on the up arrow.** Expected by anyone who reads it as a real shell, and now
+  the only shell affordance still missing.
 - **Citations** in chat answers, back to the chunk they came from. The corpus already carries
   titles and source tags, so the data exists.
 - **A structured evals harness** for the chat: a fixed question set, run against a changed corpus

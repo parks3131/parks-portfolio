@@ -8,6 +8,37 @@ Newest first.
 
 ---
 
+## 2026-07-31 - Tab completion
+
+Closed the "tab completion" item that had been sitting in the roadmap's deferred list for a few
+hours. Shell behaviour: one match completes outright, several complete as far as they agree and
+then print the candidates, an empty input prints everything, and no match does nothing.
+
+Two things worth recording.
+
+**`preventDefault` has to run before the decision, not after it.** Tab's default is to move focus
+out of the input, and the browser does that regardless of whether a completion was found. Guarding
+it behind "did we find something" loses focus on every unmatched Tab, which is the case a user
+hits most while exploring.
+
+**Candidates needed two new fields on `Entry`, and both earn their place.** `command: null`
+suppresses the prompt line, because a candidate list is not a command that was run, and
+`instant: true` reveals it whole, because typing a completion list out character by character
+would make Tab slower than typing the command it exists to save.
+
+Verified in the browser rather than by reading: `exp` completes to `experience` with focus intact,
+`c` lists contact/certifications/clear and leaves the input at `c`, an unmatched prefix adds no
+transcript entry, and a prefix containing a space is inert.
+
+One honest gap: no two commands currently share more than a single leading character, so the
+longest-common-prefix **extension** branch never fires. The function runs and returns correctly
+for the empty-input case, but that path gets real coverage only when two commands share a longer
+prefix. It is correct by inspection and untested by exercise.
+
+Also fixed the two em dashes in `Terminal.tsx`'s comments while in the file. The two in
+`commands.ts` are visible UI copy, in the `help` table and the `sudo` joke, and were left alone
+because that decision is still open.
+
 ## 2026-07-31 - Spec tree adopted
 
 Ported the working agreement and spec structure from
