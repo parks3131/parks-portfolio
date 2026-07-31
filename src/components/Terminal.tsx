@@ -27,7 +27,7 @@ export default function Terminal() {
   const [loading, setLoading] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
   // Entries with an id at or below this are shown in full immediately —
-  // clicking the terminal skips whatever is still typing out.
+  // clicking the terminal or pressing a key skips whatever is still typing out.
   const [skipUpTo, setSkipUpTo] = useState(-1);
   const idRef = useRef(1);
   const chatHistoryRef = useRef<ChatMessage[]>([]);
@@ -60,6 +60,21 @@ export default function Terminal() {
     focusInput();
     setSkipUpTo(idRef.current - 1);
   }
+
+  // Same skip from the keyboard, so it works without reaching for the mouse.
+  // Listening on the window rather than the terminal means Escape still works
+  // when focus has wandered to a header link or the 3D canvas. Enter is safe
+  // here: keydown fires before the form submits, so the watermark is taken
+  // before runCommand hands the new entry a higher id.
+  useEffect(() => {
+    const MODIFIERS = ["Shift", "Control", "Alt", "Meta"];
+    function handleKeyDown(e: KeyboardEvent) {
+      if (MODIFIERS.includes(e.key)) return;
+      setSkipUpTo(idRef.current - 1);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   async function runCommand(raw: string) {
     const trimmed = raw.trim();
