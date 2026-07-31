@@ -50,14 +50,14 @@ function renderHelp(): OutputLine[] {
     line(seg("Available commands:")),
     blank(),
     ...HELP_ENTRIES.map(([cmd, desc]) =>
-      line(seg(cmd.padEnd(CMD_PAD), "text-cyan-400"), seg(`— ${desc}`, "text-neutral-400")),
+      line(seg(cmd.padEnd(CMD_PAD), "text-green-400"), seg(`— ${desc}`, "text-neutral-400")),
     ),
   ];
 }
 
 function renderAbout(): OutputLine[] {
   return [
-    line(seg(`About ${profile.shortName}`, "text-amber-400")),
+    line(seg(`About ${profile.shortName}`, "text-green-400")),
     blank(),
     ...about
       .split("\n\n")
@@ -72,17 +72,17 @@ function renderAbout(): OutputLine[] {
 }
 
 function renderProjects(): OutputLine[] {
-  const lines: OutputLine[] = [line(seg("Projects", "text-amber-400")), blank()];
+  const lines: OutputLine[] = [line(seg("Projects", "text-green-400")), blank()];
   projects.forEach((project, i) => {
-    lines.push(line(seg(`${i + 1}. `, "text-neutral-400"), seg(project.name, "text-cyan-400")));
+    lines.push(line(seg(`${i + 1}. `, "text-neutral-400"), seg(project.name, "text-green-400")));
     lines.push(indented(seg(project.tagline, "text-neutral-300")));
     lines.push(indented(seg(`Technologies: ${project.tech.join(", ")}`, "text-neutral-500")));
     project.highlights.forEach((h) => lines.push(indented(seg(`- ${h}`))));
     if (project.github) {
-      lines.push(indented(seg("GitHub: "), seg(project.github, "text-cyan-400 underline", project.github)));
+      lines.push(indented(seg("GitHub: "), seg(project.github, "text-green-400 underline", project.github)));
     }
     project.links?.forEach((link) =>
-      lines.push(indented(seg(`${link.label}: `), seg(link.url, "text-cyan-400 underline", link.url))),
+      lines.push(indented(seg(`${link.label}: `), seg(link.url, "text-green-400 underline", link.url))),
     );
     lines.push(blank());
   });
@@ -91,24 +91,24 @@ function renderProjects(): OutputLine[] {
 
 function renderSkills(): OutputLine[] {
   return [
-    line(seg("Skills", "text-amber-400")),
+    line(seg("Skills", "text-green-400")),
     blank(),
     ...Object.entries(skills).map(([category, items]) =>
-      line(seg(`${category}: `, "text-cyan-400"), seg(items.join(", "), "text-neutral-300")),
+      line(seg(`${category}: `, "text-green-400"), seg(items.join(", "), "text-neutral-300")),
     ),
   ];
 }
 
 function renderExperience(): OutputLine[] {
-  const lines: OutputLine[] = [line(seg("Experience", "text-amber-400")), blank()];
+  const lines: OutputLine[] = [line(seg("Experience", "text-green-400")), blank()];
   experience.forEach((job) => {
-    lines.push(line(seg(job.role, "text-cyan-400"), seg(` · ${job.company}`, "text-neutral-400")));
+    lines.push(line(seg(job.role, "text-green-400"), seg(` · ${job.company}`, "text-neutral-400")));
     lines.push(indented(seg(`${job.location} · ${job.dates}`, "text-neutral-500")));
     lines.push(
       indented(
         ...job.tools.flatMap((tool, i) => [
           seg(i === 0 ? "" : " ", "text-neutral-600"),
-          seg(`[${tool}]`, "text-emerald-400"),
+          seg(`[${tool}]`, "text-green-400"),
         ]),
       ),
     );
@@ -120,21 +120,21 @@ function renderExperience(): OutputLine[] {
 
 function renderContact(): OutputLine[] {
   return [
-    line(seg("Contact", "text-amber-400")),
+    line(seg("Contact", "text-green-400")),
     blank(),
-    line(seg("Email: "), seg(profile.email, "text-cyan-400 underline", `mailto:${profile.email}`)),
-    line(seg("GitHub: "), seg(profile.github, "text-cyan-400 underline", profile.github)),
-    line(seg("LinkedIn: "), seg(profile.linkedin, "text-cyan-400 underline", profile.linkedin)),
-    line(seg("Resume: "), seg("Parks_RPK_Resume.pdf", "text-cyan-400 underline", profile.resume)),
+    line(seg("Email: "), seg(profile.email, "text-green-400 underline", `mailto:${profile.email}`)),
+    line(seg("GitHub: "), seg(profile.github, "text-green-400 underline", profile.github)),
+    line(seg("LinkedIn: "), seg(profile.linkedin, "text-green-400 underline", profile.linkedin)),
+    line(seg("Resume: "), seg("Parks_RPK_Resume.pdf", "text-green-400 underline", profile.resume)),
     line(seg(profile.location, "text-neutral-500")),
   ];
 }
 
 function renderEducation(): OutputLine[] {
   return [
-    line(seg("Education", "text-amber-400")),
+    line(seg("Education", "text-green-400")),
     blank(),
-    line(seg(education.school, "text-cyan-400")),
+    line(seg(education.school, "text-green-400")),
     line(seg(`${education.degree} · GPA: ${education.gpa} · ${education.honors}`)),
     line(seg(education.date, "text-neutral-500")),
     blank(),
@@ -145,16 +145,16 @@ function renderEducation(): OutputLine[] {
 
 function renderCertifications(): OutputLine[] {
   return [
-    line(seg("Certifications", "text-amber-400")),
+    line(seg("Certifications", "text-green-400")),
     blank(),
     ...certifications.map((c) => line(seg(`- ${c}`))),
   ];
 }
 
 function renderLeadership(): OutputLine[] {
-  const lines: OutputLine[] = [line(seg("🤝 Leadership & Community", "text-amber-400")), blank()];
+  const lines: OutputLine[] = [line(seg("🤝 Leadership & Community", "text-green-400")), blank()];
   leadership.forEach((entry) => {
-    lines.push(line(seg(entry.role, "text-cyan-400"), seg(` · ${entry.org}`, "text-neutral-400")));
+    lines.push(line(seg(entry.role, "text-green-400"), seg(` · ${entry.org}`, "text-neutral-400")));
     lines.push(indented(seg(entry.dates, "text-neutral-500")));
     lines.push(indented(seg(entry.detail, "text-neutral-300")));
     lines.push(blank());

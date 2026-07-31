@@ -141,7 +141,7 @@ export default function Terminal() {
           <span key={cmd}>
             <button
               type="button"
-              className="text-cyan-400 hover:text-cyan-300 hover:underline"
+              className="text-green-400 hover:text-green-300 hover:underline"
               onClick={() => void runCommand(cmd)}
             >
               {cmd}
@@ -155,7 +155,7 @@ export default function Terminal() {
         {entries.map((entry) => (
           <div key={entry.id}>
             <p>
-              <span className="text-cyan-400">{PROMPT}</span>{" "}
+              <span className="text-green-400">{PROMPT}</span>{" "}
               <span className="text-neutral-100">{entry.command}</span>
             </p>
             <div className="mt-1 text-neutral-300">
@@ -178,7 +178,7 @@ export default function Terminal() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-neutral-800 px-4 py-2">
-        <span className="text-cyan-400">{PROMPT}</span>
+        <span className="text-green-400">{PROMPT}</span>
         <input
           ref={inputRef}
           autoFocus
@@ -194,7 +194,7 @@ export default function Terminal() {
       </form>
 
       <div className="flex items-center justify-between border-t border-neutral-800 px-4 py-1 text-xs text-neutral-500">
-        <span className="text-cyan-400">{PROMPT}</span>
+        <span className="text-green-400">{PROMPT}</span>
         <span>{now ? now.toLocaleString() : ""}</span>
       </div>
     </div>

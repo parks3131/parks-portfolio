@@ -6,13 +6,13 @@ export default function Home() {
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-neutral-950">
       <header className="flex shrink-0 items-center justify-between border-b border-neutral-800 px-6 py-4">
-        <h1 className="text-xl font-bold text-cyan-400">{profile.name}</h1>
+        <h1 className="text-xl font-bold text-green-400">{profile.name}</h1>
         <nav className="flex items-center gap-4">
           <a
             href={profile.resume}
             target="_blank"
             rel="noreferrer"
-            className="text-sm text-neutral-500 hover:text-cyan-400 hover:underline"
+            className="text-sm text-neutral-500 hover:text-green-400 hover:underline"
           >
             Resume ↗
           </a>
@@ -20,7 +20,7 @@ export default function Home() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="text-sm text-neutral-500 hover:text-cyan-400 hover:underline"
+            className="text-sm text-neutral-500 hover:text-green-400 hover:underline"
           >
             GitHub ↗
           </a>

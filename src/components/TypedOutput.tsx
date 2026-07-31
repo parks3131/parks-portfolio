@@ -35,7 +35,7 @@ function LineView({ line, revealChars, caret }: { line: OutputLine; revealChars:
   return (
     <p className={line.indent ? "pl-4" : undefined}>
       {parts}
-      {caret && <span className="animate-pulse text-cyan-400">▌</span>}
+      {caret && <span className="animate-pulse text-green-400">▌</span>}
     </p>
   );
 }

@@ -10,7 +10,7 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
       {/* accent header bar */}
       <mesh position={[0, 0.92, 0.026]}>
         <planeGeometry args={[1.6, 0.36]} />
-        <meshBasicMaterial color="#22d3ee" />
+        <meshBasicMaterial color="#4ade80" />
       </mesh>
       <Text
         position={[0, 0.92, 0.03]}
@@ -30,7 +30,7 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
       </mesh>
       <mesh position={[0, 0.15, 0.02]}>
         <ringGeometry args={[0.49, 0.52, 48]} />
-        <meshBasicMaterial color="#22d3ee" />
+        <meshBasicMaterial color="#4ade80" />
       </mesh>
 
       <Text
