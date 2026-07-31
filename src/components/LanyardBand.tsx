@@ -154,7 +154,7 @@ export default function LanyardBand() {
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
-          color="#4ade80"
+          color="#22c55e"
           depthTest={false}
           resolution={[size.width, size.height]}
           lineWidth={0.06}

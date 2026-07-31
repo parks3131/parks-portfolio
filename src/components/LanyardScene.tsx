@@ -18,7 +18,7 @@ export default function LanyardScene() {
       </Physics>
       <Environment resolution={256}>
         <group rotation={[Math.PI / 3, 0, 0]}>
-          <Lightformer intensity={2} color="#4ade80" position={[0, -1, 5]} scale={10} form="ring" />
+          <Lightformer intensity={2} color="#22c55e" position={[0, -1, 5]} scale={10} form="ring" />
           <Lightformer intensity={2} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={2} />
         </group>
       </Environment>
