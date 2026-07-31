@@ -26,6 +26,9 @@ export default function Terminal() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
+  // Entries with an id at or below this are shown in full immediately —
+  // clicking the terminal skips whatever is still typing out.
+  const [skipUpTo, setSkipUpTo] = useState(-1);
   const idRef = useRef(1);
   const chatHistoryRef = useRef<ChatMessage[]>([]);
   const runningCommandsRef = useRef<Set<string>>(new Set());
@@ -49,6 +52,13 @@ export default function Terminal() {
 
   function focusInput() {
     inputRef.current?.focus();
+  }
+
+  // Clicking anywhere in the terminal reveals every entry that exists right
+  // now. Anything typed afterwards gets a higher id, so it still animates.
+  function handleTerminalClick() {
+    focusInput();
+    setSkipUpTo(idRef.current - 1);
   }
 
   async function runCommand(raw: string) {
@@ -135,14 +145,19 @@ export default function Terminal() {
   }
 
   return (
-    <div className="flex h-full flex-col text-sm text-neutral-200" onClick={focusInput}>
+    <div className="flex h-full flex-col text-sm text-neutral-200" onClick={handleTerminalClick}>
       <div className="border-b border-neutral-800 px-4 py-2 text-neutral-400 flex flex-wrap gap-x-2">
         {COMMAND_LIST.map((cmd, i) => (
           <span key={cmd}>
             <button
               type="button"
-              className="text-green-400 hover:text-green-300 hover:underline"
-              onClick={() => void runCommand(cmd)}
+              className="text-green-500 hover:text-green-400 hover:underline"
+              onClick={(e) => {
+                // Don't let this reach the container's skip handler, or the
+                // command would skip the animation it just started.
+                e.stopPropagation();
+                void runCommand(cmd);
+              }}
             >
               {cmd}
             </button>
@@ -155,7 +170,7 @@ export default function Terminal() {
         {entries.map((entry) => (
           <div key={entry.id}>
             <p>
-              <span className="text-green-400">{PROMPT}</span>{" "}
+              <span className="text-green-500">{PROMPT}</span>{" "}
               <span className="text-neutral-100">{entry.command}</span>
             </p>
             <div className="mt-1 text-neutral-300">
@@ -164,6 +179,7 @@ export default function Terminal() {
               ) : (
                 <TypedOutput
                   lines={entry.lines}
+                  revealAll={entry.id <= skipUpTo}
                   onProgress={scrollToBottom}
                   onDone={() => {
                     scrollToBottom();
@@ -178,7 +194,7 @@ export default function Terminal() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-neutral-800 px-4 py-2">
-        <span className="text-green-400">{PROMPT}</span>
+        <span className="text-green-500">{PROMPT}</span>
         <input
           ref={inputRef}
           autoFocus
@@ -194,7 +210,7 @@ export default function Terminal() {
       </form>
 
       <div className="flex items-center justify-between border-t border-neutral-800 px-4 py-1 text-xs text-neutral-500">
-        <span className="text-green-400">{PROMPT}</span>
+        <span className="text-green-500">{PROMPT}</span>
         <span>{now ? now.toLocaleString() : ""}</span>
       </div>
     </div>

@@ -35,17 +35,19 @@ function LineView({ line, revealChars, caret }: { line: OutputLine; revealChars:
   return (
     <p className={line.indent ? "pl-4" : undefined}>
       {parts}
-      {caret && <span className="animate-pulse text-green-400">▌</span>}
+      {caret && <span className="animate-pulse text-green-500">▌</span>}
     </p>
   );
 }
 
 export default function TypedOutput({
   lines,
+  revealAll = false,
   onProgress,
   onDone,
 }: {
   lines: OutputLine[];
+  revealAll?: boolean;
   onProgress?: () => void;
   onDone?: () => void;
 }) {
@@ -53,8 +55,13 @@ export default function TypedOutput({
   const [charIdx, setCharIdx] = useState(0);
   const doneRef = useRef(false);
 
+  // `revealAll` is derived straight into the render below rather than being
+  // pushed into state, so a click that skips the animation doesn't have to
+  // race the pending character timer.
+  const finished = revealAll || lineIdx >= lines.length;
+
   useEffect(() => {
-    if (lineIdx >= lines.length) {
+    if (finished) {
       if (!doneRef.current) {
         doneRef.current = true;
         onDone?.();
@@ -74,14 +81,24 @@ export default function TypedOutput({
       onProgress?.();
     }, CHAR_DELAY_MS);
     return () => clearTimeout(t);
-  }, [lineIdx, charIdx, lines, onDone, onProgress]);
+  }, [finished, lineIdx, charIdx, lines, onDone, onProgress]);
+
+  if (finished) {
+    return (
+      <div>
+        {lines.map((ln, i) => (
+          <LineView key={i} line={ln} revealChars={Infinity} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div>
       {lines.slice(0, lineIdx).map((ln, i) => (
         <LineView key={i} line={ln} revealChars={Infinity} />
       ))}
-      {lineIdx < lines.length && <LineView line={lines[lineIdx]} revealChars={charIdx} caret />}
+      <LineView line={lines[lineIdx]} revealChars={charIdx} caret />
     </div>
   );
 }
