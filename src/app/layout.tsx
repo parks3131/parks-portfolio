@@ -8,8 +8,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Parks RPK — Software Engineer",
-  description: "Interactive terminal portfolio for Parksunnath RPK, Software Engineer.",
+  title: "Parks RPK",
+  description: "Interactive terminal portfolio for Parksunnath RPK.",
 };
 
 export default function RootLayout({

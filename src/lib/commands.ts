@@ -81,6 +81,9 @@ function renderProjects(): OutputLine[] {
     if (project.github) {
       lines.push(indented(seg("GitHub: "), seg(project.github, "text-cyan-400 underline", project.github)));
     }
+    project.links?.forEach((link) =>
+      lines.push(indented(seg(`${link.label}: `), seg(link.url, "text-cyan-400 underline", link.url))),
+    );
     lines.push(blank());
   });
   return lines.slice(0, -1);
@@ -122,6 +125,7 @@ function renderContact(): OutputLine[] {
     line(seg("Email: "), seg(profile.email, "text-cyan-400 underline", `mailto:${profile.email}`)),
     line(seg("GitHub: "), seg(profile.github, "text-cyan-400 underline", profile.github)),
     line(seg("LinkedIn: "), seg(profile.linkedin, "text-cyan-400 underline", profile.linkedin)),
+    line(seg("Resume: "), seg("Parks_RPK_Resume.pdf", "text-cyan-400 underline", profile.resume)),
     line(seg(profile.location, "text-neutral-500")),
   ];
 }

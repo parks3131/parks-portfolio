@@ -10,6 +10,7 @@ Live at [parkstechusa.com](https://parkstechusa.com).
 - **3D lanyard badge** — a physics-simulated badge on a lanyard (`react-three/fiber` + `react-three/rapier` + `meshline`) that can be dragged around the page, with an ID-card badge mirrored on both faces so it reads correctly from any angle.
 - **RAG-powered AI chat** — the free-text terminal input isn't a single hardcoded system prompt. It retrieves relevant chunks from an embedded corpus per question, so answers stay grounded and the corpus can grow without bloating every request.
 - **Guardrails + rate limiting** — the chat endpoint is public and spends real API credits, so it's protected by input/output guardrails and per-IP rate limiting.
+- **Resume download** — `public/Parks_RPK_Resume.pdf`, linked from the header and the `contact` command via `profile.resume`.
 
 ## How the AI chat works
 
@@ -69,10 +70,14 @@ src/
     systemPrompt.ts           — builds the chat's system prompt from retrieved context
     retrieve.ts                — embeds a query and runs the pgvector similarity search
     guardrails.ts                — input jailbreak/off-topic filter + output leak check
+                                   (leak markers track systemPrompt.ts's section tags —
+                                    update both together, or the check goes quietly dead)
     rateLimit.ts                 — Upstash sliding-window rate limiter
     db.ts                        — Postgres connection pool
 data/
   corpus.json                  — the RAG corpus (resume + project write-ups, chunked)
+public/
+  Parks_RPK_Resume.pdf         — resume, served from the header link and `contact`
 scripts/
   reindex.ts                   — embeds data/corpus.json and syncs it to Postgres
 ```

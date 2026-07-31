@@ -43,6 +43,7 @@ ${contextBlock}
 
 <contact>
 Email: ${profile.email} | GitHub: ${profile.github} | LinkedIn: ${profile.linkedin}
+Resume PDF: ${profile.resume} (downloadable from the "Resume" link in this site's header)
 </contact>
 
 <style_rules>

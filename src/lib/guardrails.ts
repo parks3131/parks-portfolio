@@ -24,11 +24,37 @@ export function checkInput(message: string): { allowed: boolean; reason?: string
   return { allowed: true };
 }
 
-const LEAK_MARKERS = ["CONTEXT:", "### ", "Style rules:", "CONTACT:"];
+// The system prompt is built from XML-style section tags (see systemPrompt.ts).
+// A reply containing one of those tags — or a verbatim line from the prompt — is
+// echoing the scaffolding itself, which no legitimate answer ever needs to do.
+// One hit is enough.
+const PROMPT_SECTIONS = [
+  "role",
+  "persona",
+  "grounding_rules",
+  "scope",
+  "assistant_behavior",
+  "context",
+  "contact",
+  "style_rules",
+];
+
+const STRONG_LEAK_PATTERNS: RegExp[] = [
+  new RegExp(`</?(?:${PROMPT_SECTIONS.join("|")})>`, "i"),
+  /you are the ai persona embedded in/i,
+  /ground every answer strictly in the context/i,
+  /retrieved from parks's resume and project write-ups/i,
+];
+
+// Weaker signals: `### ` is how retrieved chunks are titled, and the rest are
+// leftovers from the pre-XML prompt format. Each is individually plausible in a
+// normal answer, so these need corroboration before tripping the guard.
+const WEAK_LEAK_MARKERS = ["### ", "CONTEXT:", "Style rules:", "CONTACT:"];
 
 export function checkOutput(reply: string): string {
-  const looksLeaked = LEAK_MARKERS.filter((marker) => reply.includes(marker)).length >= 2;
-  if (looksLeaked) {
+  const strongHit = STRONG_LEAK_PATTERNS.some((pattern) => pattern.test(reply));
+  const weakHits = WEAK_LEAK_MARKERS.filter((marker) => reply.includes(marker)).length;
+  if (strongHit || weakHits >= 2) {
     return "I can't share that directly, but happy to answer questions about Parks's experience, projects, or skills.";
   }
   return reply;

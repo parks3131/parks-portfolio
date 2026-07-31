@@ -34,7 +34,7 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
       </mesh>
 
       <Text
-        position={[0, -0.55, 0.026]}
+        position={[0, -0.62, 0.026]}
         fontSize={0.13}
         color="#f5f5f5"
         anchorX="center"
@@ -42,16 +42,6 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
         maxWidth={1.4}
       >
         {profile.name}
-      </Text>
-      <Text
-        position={[0, -0.75, 0.026]}
-        fontSize={0.09}
-        color="#a3a3a3"
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={1.4}
-      >
-        {profile.title}
       </Text>
 
       <Text position={[0, -1.02, 0.026]} fontSize={0.065} color="#525252" anchorX="center" anchorY="middle">

@@ -6,18 +6,25 @@ export default function Home() {
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-neutral-950">
       <header className="flex shrink-0 items-center justify-between border-b border-neutral-800 px-6 py-4">
-        <div>
-          <h1 className="text-xl font-bold text-cyan-400">{profile.name}</h1>
-          <p className="text-sm text-neutral-500">{profile.title}</p>
-        </div>
-        <a
-          href={profile.github}
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm text-neutral-500 hover:text-cyan-400 hover:underline"
-        >
-          GitHub ↗
-        </a>
+        <h1 className="text-xl font-bold text-cyan-400">{profile.name}</h1>
+        <nav className="flex items-center gap-4">
+          <a
+            href={profile.resume}
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm text-neutral-500 hover:text-cyan-400 hover:underline"
+          >
+            Resume ↗
+          </a>
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm text-neutral-500 hover:text-cyan-400 hover:underline"
+          >
+            GitHub ↗
+          </a>
+        </nav>
       </header>
 
       <main className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-2">
