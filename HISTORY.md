@@ -28,6 +28,11 @@ instead of widening `TOP_K`, and the same question now answers correctly.
 The owner then confirmed Acarin started in **Jan 2026**, as the PDF says, not Jan 2025; the
 terminal and three corpus chunks were corrected and reindexed.
 
+Where the resume, the site and the owner's GitHub profile README disagreed, the owner chose the
+README version, except for the CitiBike project, where the resume wins. On the site that changed
+only Acarin's title, to Software Engineer (QA & Evals); ClubChat already matched the README. The
+resume PDF was not edited, so it still differs, as listed in the spec.
+
 `content.ts` had em dashes in the `about` text, the project taglines and the certifications.
 They are now hyphens. The same character is still in `systemPrompt.ts`, `guardrails.ts`,
 `commands.ts`, two badge components and the README. Those files were left alone, because changing

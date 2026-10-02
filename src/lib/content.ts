@@ -191,7 +191,7 @@ export const experience: ExperienceEntry[] = [
   },
   {
     company: "Acarin Inc",
-    role: "Evals and Automation Intern",
+    role: "Software Engineer (QA & Evals)",
     location: "Baltimore, MD",
     dates: "Jan 2026 – Aug 2026",
     tools: [

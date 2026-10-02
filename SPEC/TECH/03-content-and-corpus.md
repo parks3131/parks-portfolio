@@ -47,6 +47,10 @@ Recorded rather than hidden, because they are live:
 - The resume PDF has **Elevated Lab** (ML & Computer Vision Intern, May - Jul 2025) and no SUNY
   Research Foundation; `content.ts` and the corpus have SUNY and no Elevated Lab.
 - The resume PDF lists projects (CitiBike ETL, AI candidate matching) that the site does not.
+- The resume PDF titles Acarin **Evals and Automation Intern**; the owner chose **Software
+  Engineer (QA & Evals)** for the site, matching the GitHub profile README.
+- The resume PDF says ClubChat serves three clubs with 1,800 tests; the site says one running club
+  of about 100 people with 631 tests, matching the GitHub profile README.
 
 These are open questions in
 [`../PRD/04-roadmap-and-open-questions.md`](../PRD/04-roadmap-and-open-questions.md).
