@@ -28,10 +28,12 @@ instead of widening `TOP_K`, and the same question now answers correctly.
 The owner then confirmed Acarin started in **Jan 2026**, as the PDF says, not Jan 2025; the
 terminal and three corpus chunks were corrected and reindexed.
 
-Where the resume, the site and the owner's GitHub profile README disagreed, the owner chose the
-README version, except for the CitiBike project, where the resume wins. On the site that changed
-only Acarin's title, to Software Engineer (QA & Evals); ClubChat already matched the README. The
-resume PDF was not edited, so it still differs, as listed in the spec.
+The owner then settled the disagreements. The site follows the resume and the GitHub profile
+README does not have to. Acarin is titled Evals and Automation Intern on the site. ClubChat is
+described as in TestFlight beta with three Binghamton clubs (running, triathlon, swimming) rather
+than "in daily use". Its counts come from the ClubChat repo's own README (46 tables, 136 routes,
+1,331 tests, a 97-check gate) instead of the resume's 39 / 116 / 1,800, because the repo is the
+count that can be checked. The terminal, the `about` text and five corpus chunks changed.
 
 `content.ts` had em dashes in the `about` text, the project taglines and the certifications.
 They are now hyphens. The same character is still in `systemPrompt.ts`, `guardrails.ts`,

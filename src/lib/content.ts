@@ -17,7 +17,7 @@ Before that, at Acarin, I led evals and observability for an AI agent HR platfor
 
 At SUNY Research Foundation, I built backend services in Python/FastAPI across PostgreSQL and DynamoDB as part of a 5-person Agile team, shipping a digital exhibit platform now serving museum partners across the U.S.
 
-Outside of work I ship things end to end - ClubChat, a coordination app my university running club actually uses, now rebuilt from a written postmortem of its own v1; Interstellar, an intent-vs-implementation drift detector; this site's own RAG chatbot; and an AI news platform that curates 70+ sources with no manual input. Type 'projects' to see the full list.
+Outside of work I ship things end to end - ClubChat, a coordination app now in TestFlight beta with three Binghamton clubs, rebuilt from a written postmortem of its own v1; Interstellar, an intent-vs-implementation drift detector; this site's own RAG chatbot; and an AI news platform that curates 70+ sources with no manual input. Type 'projects' to see the full list.
 
 I'm most drawn to the seam between AI and the infrastructure that keeps it honest - evals, tracing, guardrails - the unglamorous plumbing that turns "the demo worked" into "it works in production."`;
 
@@ -86,7 +86,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: "ClubChat",
-    tagline: "Coordination app for university sports clubs - shipped and in daily use, now rebuilt from a written postmortem of its own v1",
+    tagline: "Coordination app for university sports clubs - in TestFlight beta with three Binghamton clubs, rebuilt from a written postmortem of its own v1",
     tech: [
       "TypeScript",
       "Node 24",
@@ -100,12 +100,12 @@ export const projects: Project[] = [
       "APNs / FCM",
     ],
     highlights: [
-      "Built for my university running club - ~100 people coordinating workouts, race logistics, and rosters through a group chat and a lot of screenshots. The product bet: give clubs the structure they're already faking by hand",
+      "Started with my university running club - ~100 people coordinating workouts, race logistics, and rosters through a group chat and a lot of screenshots - and now in TestFlight beta with three Binghamton clubs: running, triathlon and swimming. The product bet: give clubs the structure they're already faking by hand",
       "The organizing idea that kept it small: a Race is a Club nested one level down - same shape, same membership, same permissions. Three scopes, one implementation, DMs later joined as a fourth",
       "v1 shipped on managed Postgres with row-level security and the client talking straight to the database. I wrote the defects down and found they weren't independent: the database was the application server. The remaster puts a real server in the middle and gives the message log a monotonic sequence number",
       "Durable channel log with gapless per-channel sequence numbers, so 'what did I miss' is one integer comparison; domain writes and their effects commit together through a transactional outbox drained with FOR UPDATE SKIP LOCKED",
       "Push is suppressed by the read cursor, never by connection liveness - a live socket proves nothing, and gating on it silently swallows notifications. Liveness may only accelerate delivery, never suppress it",
-      "Solo, from written spec to running app: 116 routes, 39 tables, 631 tests against real Postgres and Redis via Testcontainers, a SQL harness that tries to violate every invariant, and a 73-check gate against a running server",
+      "Solo, from written spec to running app: 136 routes, 46 tables, 1,331 tests against real Postgres and Redis via Testcontainers, a SQL harness that tries to violate every invariant, and a 97-check gate against a running server",
     ],
     github: "https://github.com/parks3131/ClubChat-Remastered",
     links: [{ label: "v1 (shipped)", url: "https://github.com/parks3131/ClubChat" }],
@@ -191,7 +191,7 @@ export const experience: ExperienceEntry[] = [
   },
   {
     company: "Acarin Inc",
-    role: "Software Engineer (QA & Evals)",
+    role: "Evals and Automation Intern",
     location: "Baltimore, MD",
     dates: "Jan 2026 – Aug 2026",
     tools: [
