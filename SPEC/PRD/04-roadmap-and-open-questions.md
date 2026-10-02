@@ -32,6 +32,6 @@ so none of it gets rediscovered as a surprise.
    Today there is no threshold: the top k come back regardless of how weak the match is, and the
    model is left to notice. An explicit "no relevant context" path would be more honest.
 3. **Should the site state the resume's facts or the site's facts when they disagree?** The
-   resume currently says Arlington, VA and lists one Acarin role; the site says Binghamton, NY
-   and additionally lists SUNY Research Foundation. This is unresolved and is a factual
+   resume currently starts Acarin in 2026 rather than 2025, and lists Elevated Lab where the site
+   lists SUNY Research Foundation. This is unresolved and is a factual
    correctness issue, not a styling one.

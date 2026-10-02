@@ -8,6 +8,30 @@ Newest first.
 
 ---
 
+## 2026-10-02 - QuickSlot Health role added
+
+New current role: Software Engineering Intern at QuickSlot Health, remote from New York, since
+Sep 2026. Acarin ended in Aug 2026, which the owner confirmed along with the start date and the
+tools. Only the bullets describing work already done went in; the owner's list also had bullets
+to add once the work happens (AWS deploys, EMR integration, performance, docs), and they were
+left out. The terminal entry, the `about` text and a new `experience-quickslot` chunk were added,
+and the summary and Acarin chunks were updated with the dates. The resume PDF was then replaced with a new one from the owner that has the
+QuickSlot role. It disagrees with the site in other places, listed under "Known divergences" in
+`SPEC/TECH/03-content-and-corpus.md`.
+
+Checking the live endpoint after the reindex turned up a retrieval gap that was probably there
+before this change: "When was Parks at Acarin?" did not retrieve the Acarin chunk at all, and the
+bot said it had never heard of Acarin. That chunk is long and technical, so a short question about
+dates matches it weakly. A short `experience-timeline` chunk now lists every role with its dates,
+instead of widening `TOP_K`, and the same question now answers correctly.
+
+`content.ts` had em dashes in the `about` text, the project taglines and the certifications.
+They are now hyphens. The same character is still in `systemPrompt.ts`, `guardrails.ts`,
+`commands.ts`, two badge components and the README. Those files were left alone, because changing
+the prompt means re-proving the output guardrail against it.
+
+---
+
 ## 2026-10-02 - Badge photo replaced, background kept
 
 The cut-out was swapped for a new photo shot outdoors: sky, water, a ship. The cutout script's

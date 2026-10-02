@@ -44,9 +44,10 @@ disagree. Nothing catches this automatically today.
 
 Recorded rather than hidden, because they are live:
 
-- The resume PDF says **Arlington, VA**; `content.ts` says **Binghamton, NY**.
-- The resume PDF lists **one** Acarin role and no SUNY Research Foundation; `content.ts` lists
-  the merged Acarin role **and** SUNY.
+- The resume PDF starts Acarin in **Jan 2026**; `content.ts` and the corpus say **Jan 2025**.
+- The resume PDF has **Elevated Lab** (ML & Computer Vision Intern, May - Jul 2025) and no SUNY
+  Research Foundation; `content.ts` and the corpus have SUNY and no Elevated Lab.
+- The resume PDF lists projects (CitiBike ETL, AI candidate matching) that the site does not.
 
-Both are open questions in
+These are open questions in
 [`../PRD/04-roadmap-and-open-questions.md`](../PRD/04-roadmap-and-open-questions.md).
