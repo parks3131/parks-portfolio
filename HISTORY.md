@@ -25,6 +25,9 @@ bot said it had never heard of Acarin. That chunk is long and technical, so a sh
 dates matches it weakly. A short `experience-timeline` chunk now lists every role with its dates,
 instead of widening `TOP_K`, and the same question now answers correctly.
 
+The owner then confirmed Acarin started in **Jan 2026**, as the PDF says, not Jan 2025; the
+terminal and three corpus chunks were corrected and reindexed.
+
 `content.ts` had em dashes in the `about` text, the project taglines and the certifications.
 They are now hyphens. The same character is still in `systemPrompt.ts`, `guardrails.ts`,
 `commands.ts`, two badge components and the README. Those files were left alone, because changing

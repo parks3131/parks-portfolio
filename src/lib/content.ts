@@ -193,7 +193,7 @@ export const experience: ExperienceEntry[] = [
     company: "Acarin Inc",
     role: "Evals and Automation Intern",
     location: "Baltimore, MD",
-    dates: "Jan 2025 – Aug 2026",
+    dates: "Jan 2026 – Aug 2026",
     tools: [
       "Docker",
       "InfluxDB",
