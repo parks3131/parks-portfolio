@@ -8,6 +8,20 @@ Newest first.
 
 ---
 
+## 2026-10-02 - Badge photo replaced, background kept
+
+The cut-out was swapped for a new photo shot outdoors: sky, water, a ship. The cutout script's
+flood fill only keys a plain white background, so the first attempt generated a person mask with
+macOS Vision segmentation instead, and it worked cleanly. The figure was then put back in front
+of its background on request, so the keying was dropped and the photo is now a framed head and
+chest crop with rounded corners baked into its alpha. Without a fade the name can no longer
+overlap the photo, so the plane was shortened to sit between the header bar and the name.
+`scripts/photo-cutout.mjs` stays for a future cut-out, but it did not make this asset.
+
+Also removed an unused `eslint-disable` in `src/lib/db.ts` that lint flagged as a warning.
+
+---
+
 ## 2026-07-31 - Badge photo
 
 **The photo went in twice.** First as a square crop of the head, dropped into the existing circle

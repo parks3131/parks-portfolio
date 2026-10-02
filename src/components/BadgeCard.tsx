@@ -5,12 +5,12 @@ import type * as THREE from "three";
 import { profile } from "@/lib/content";
 import BadgeFlames from "@/components/BadgeFlames";
 
-// The photo is 1027x1531, and the plane keeps that aspect exactly so the figure
-// is never stretched. It hangs from just under the header bar down past the name,
-// which is legible over it because the photo's bottom fades out to nothing.
-const PHOTO_H = 1.52;
-const PHOTO_W = PHOTO_H * (1027 / 1531);
-const PHOTO_TOP = 0.63;
+// The photo is 1193x1456, and the plane keeps that aspect exactly so the figure
+// is never stretched. It is a framed head-and-chest shot with its background
+// kept, so it sits between the header bar and the name rather than under either.
+const PHOTO_H = 1.4;
+const PHOTO_W = PHOTO_H * (1193 / 1456);
+const PHOTO_TOP = 0.67;
 const PHOTO_Y = PHOTO_TOP - PHOTO_H / 2;
 
 function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
@@ -32,10 +32,9 @@ function CardFace({ avatarMap }: { avatarMap: THREE.Texture }) {
         PORTFOLIO
       </Text>
 
-      {/* Cut-out photo: the full frame with its background keyed out, rather
-          than a head cropped into a circle. alphaTest discards the transparent
-          margin instead of drawing it, so the quad's invisible rectangle never
-          writes depth over the flames. */}
+      {/* Photo with rounded corners baked into its alpha. alphaTest discards
+          the transparent corners instead of drawing them, so they never write
+          depth over the flames. */}
       <mesh position={[0, PHOTO_Y, 0.026]}>
         <planeGeometry args={[PHOTO_W, PHOTO_H]} />
         <meshBasicMaterial map={avatarMap} transparent alphaTest={0.04} toneMapped={false} />

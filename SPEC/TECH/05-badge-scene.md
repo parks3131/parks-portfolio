@@ -44,27 +44,23 @@ depends on, and the symptom is "the badge stopped working" with nothing in the c
 
 ## The card photo
 
-A PNG whose background was keyed out ahead of time, drawn on a plane rather than masked into a
-circle. Three things about it are deliberate.
+A PNG cropped from head to chest with its background kept, and rounded corners baked into its
+alpha, drawn on a plane between the header bar and the name. Three things about it are deliberate.
 
 - **The plane keeps the image's aspect ratio**, derived from the pixel dimensions in the
   component. Picking a width and a height independently stretches the figure, and on a face that
   is subtle enough to ship.
 - **`alphaTest` is set.** A transparent quad still writes depth across its whole rectangle, so
-  without it the invisible margin masks the flames behind the card.
-- **The image fades to nothing along its bottom edge**, which is why the name is legible sitting
-  over the end of it. The photo crops the body mid-torso, and a hard edge there reads as a
-  sticker.
+  without it the transparent corners mask the flames behind the card.
 - **It is stored at full source resolution with anisotropy set**, because the card swings and a
   slanted sample through plain trilinear filtering is where the softness comes from. Anisotropy
   goes on in the `useTexture` load callback: mutating the hook's return value afterwards is what
   the React immutability lint exists to stop.
 
-[`scripts/photo-cutout.mjs`](../../scripts/photo-cutout.mjs) produces the file, and replacing the
-photo means rerunning it rather than keying by hand. Keying is a flood fill inward from the
-frame, not a threshold on white: the tank top in the photo is full of white stripes and stars,
-and a global threshold punches holes straight through them. Only white connected to the border is
-background.
+The current file is a sharp crop of `public/images/avatar-original.jpg` (left 162, top 809,
+1193x1456), unsharp-masked, with a 51px corner radius. If the badge goes back to a cut-out on a
+white background, [`scripts/photo-cutout.mjs`](../../scripts/photo-cutout.mjs) keys it by flood
+fill from the frame rather than a threshold on white, so white in the clothing survives.
 
 ## Both faces
 

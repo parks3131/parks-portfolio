@@ -11,8 +11,8 @@ something outside the usual web stack; it carries no information the terminal do
 1. The badge is draggable with a pointer and swings under gravity when released.
 2. **The card is legible from both faces.** Its content is mirrored, so it reads correctly no
    matter how it is spun.
-3. **The photo is a full-frame cut-out, not a framed headshot.** The figure stands on the card
-   with no background of its own, so the card reads as a person rather than a picture of one.
+3. **The photo is a head-and-chest shot with its own background**, framed on the card between
+   the header and the name, with rounded corners to match the card.
 4. **Nothing decorative may capture a pointer event.** Effects and particles are excluded from
    hit testing, or the badge stops being draggable.
 5. **The scene must never take the page down with it.** Physics instability is guarded rather
